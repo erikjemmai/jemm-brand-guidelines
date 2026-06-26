@@ -4,10 +4,36 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
+REPO="${1:-jemm-brand-guidelines}"
 GH="${GH:-gh}"
+
+if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  git init
+  git branch -M main
+fi
+
+git add -A
+if ! git diff --cached --quiet; then
+  git commit -m "$(cat <<'EOF'
+Update Jemm.ai brand guidelines.
+
+EOF
+)"
+fi
+
 if ! command -v "$GH" >/dev/null 2>&1; then
-  echo "GitHub CLI (gh) is required. Install: https://cli.github.com/"
-  exit 1
+  echo ""
+  echo "GitHub CLI (gh) not found. Repo is committed locally."
+  echo ""
+  echo "To publish manually:"
+  echo "  1. Create a repo at https://github.com/new named: ${REPO}"
+  echo "  2. Run:"
+  echo "       git remote add origin git@github.com:YOUR_USERNAME/${REPO}.git"
+  echo "       git push -u origin main"
+  echo "  3. Enable Pages: Settings → Pages → Deploy from branch main / root"
+  echo ""
+  echo "Or install gh and re-run: https://cli.github.com/"
+  exit 0
 fi
 
 if ! "$GH" auth status >/dev/null 2>&1; then
@@ -15,18 +41,11 @@ if ! "$GH" auth status >/dev/null 2>&1; then
   exit 1
 fi
 
-REPO="${1:-jemm-brand-guidelines}"
 OWNER="$("$GH" api user --jq '.login')"
 
-if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-  echo "Git repo already initialized."
-else
-  git init
-  git branch -M main
-fi
-
 if git remote get-url origin >/dev/null 2>&1; then
-  echo "Remote origin already set."
+  echo "Pushing to existing remote..."
+  git push -u origin main
 else
   echo "Creating private repo ${OWNER}/${REPO}..."
   "$GH" repo create "$REPO" \
@@ -37,21 +56,6 @@ else
     --description "Jemm.ai Brand & Style Guidelines — Emerald design system"
 fi
 
-git add -A
-if git diff --cached --quiet; then
-  echo "Nothing to commit."
-else
-  git commit -m "$(cat <<'EOF'
-Publish Jemm.ai brand guidelines with atomic design system.
-
-Interactive tile framework, spacing tokens, typography scale, and component library.
-EOF
-)"
-fi
-
-git push -u origin main
-
-echo ""
 echo "Enabling GitHub Pages..."
 "$GH" api "repos/${OWNER}/${REPO}/pages" \
   -X POST \
