@@ -1,12 +1,77 @@
 (function () {
   var logoFiles = {
-    "jemm-logo-v1": { label: "V1", url: "assets/jemm-logo-v1.png", urlColor: "assets/jemm-logo-v1.png" },
-    "jemm-logo-v2": { label: "V2", url: "assets/jemm-logo-v2.png", urlColor: "assets/jemm-logo-v2.png" },
-    "jemm-logo-v3": { label: "V3", url: "assets/jemm-logo-v3.png", urlColor: "assets/jemm-logo-v3.png" },
-    "jemm-logo-v4": { label: "V4", url: "assets/jemm-logo-v4.png", urlColor: "assets/jemm-logo-v4.png" },
-    "jemm-logo-v5": { label: "V5", url: "assets/jemm-logo-v5.png", urlColor: "assets/jemm-logo-v5.png" },
-    "jemm-logo-v6": { label: "V6", url: "assets/jemm-logo-v6.png", urlColor: "assets/jemm-logo-v6.png" }
+    primary: { label: "Lockup" },
+    mark: { label: "Logomark" },
+    wordmark: { label: "Logotype" }
   };
+
+  function markIconSrc(mode) {
+    return mode === "dark"
+      ? "assets/jemm-mark-icon-dark@24.png"
+      : "assets/jemm-mark-icon-light@24.png";
+  }
+
+  function lockupSrc(tone, mode) {
+    if (tone === "neon" || tone === "light") return "assets/jemm-lockup-light.svg";
+    if (tone === "emerald" || tone === "dark" || tone === "steel") return "assets/jemm-lockup-dark.svg";
+    if (tone === "nav") {
+      if (document.body.getAttribute("data-route") === "home") {
+        return mode === "dark" ? "assets/jemm-lockup-dark.svg" : "assets/jemm-lockup-light.svg";
+      }
+      return mode === "dark" ? "assets/jemm-lockup-dark.svg" : "assets/jemm-lockup-light.svg";
+    }
+    return mode === "dark" ? "assets/jemm-lockup-dark.svg" : "assets/jemm-lockup-light.svg";
+  }
+
+  function logoSrc(logoId, mode, tone) {
+    if (logoId === "mark") {
+      return (tone === "dark" || tone === "emerald" || mode === "dark") && tone !== "light" && tone !== "neon"
+        ? "assets/jemm-mark-dark.svg"
+        : "assets/jemm-mark-light.svg";
+    }
+    if (logoId === "wordmark") {
+      return (tone === "dark" || tone === "emerald" || mode === "dark") && tone !== "light" && tone !== "neon"
+        ? "assets/jemm-wordmark-dark.svg"
+        : "assets/jemm-wordmark-light.svg";
+    }
+    return lockupSrc(tone, mode);
+  }
+
+  function getPaletteColors() {
+    var mode = document.documentElement.getAttribute("data-mode") || "light";
+    return {
+      canvas: { bg: mode === "dark" ? "#121212" : "#ffffff", text: mode === "dark" ? "#f5f5f5" : "#283239" },
+      coconut: { bg: mode === "dark" ? "#283239" : "#f7f5f2", text: mode === "dark" ? "#f5f5f5" : "#283239" },
+      emerald: { bg: "#059161", text: "#ffffff" },
+      deep: { bg: "#002928", text: "#00d58c" },
+      ink: { bg: "#121212", text: "#f5f5f5" },
+      neon: { bg: "#00d58c", text: "#002928" },
+      steel: { bg: "#283239", text: "#ffffff" }
+    };
+  }
+
+  function refreshLogos() {
+    var mode = document.documentElement.getAttribute("data-mode") || "light";
+    var logoId = document.documentElement.getAttribute("data-logo") || "primary";
+    document.querySelectorAll("[data-logo-auto]").forEach(function (el) {
+      var tone = el.getAttribute("data-logo-tone") || "light";
+      el.src = logoSrc(logoId, mode, tone);
+    });
+    document.querySelectorAll("[data-nav-mark]").forEach(function (el) {
+      el.src = markIconSrc(mode);
+    });
+    document.querySelectorAll("[data-desk-mark]").forEach(function (el) {
+      var mode = document.documentElement.getAttribute("data-mode") || "light";
+      el.src = mode === "dark"
+        ? "assets/jemm-mark-icon-dark@24.png"
+        : "assets/jemm-mark-icon-light@24.png";
+    });
+    document.querySelectorAll("[data-bottom-mark]").forEach(function (el) {
+      el.src = mode === "dark"
+        ? "assets/jemm-mark-icon-dark@24.png"
+        : "assets/jemm-mark-icon-light@24.png";
+    });
+  }
 
   var routes = [
     { id: "voice", label: "Voice & Tone" },
@@ -15,7 +80,8 @@
     { id: "spacing", label: "Spacing" },
     { id: "color", label: "Color" },
     { id: "applications", label: "Applications" },
-    { id: "components", label: "Components" }
+    { id: "components", label: "Components" },
+    { id: "accessibility", label: "Accessibility" }
   ];
 
   var currentRoute = "home";
@@ -31,26 +97,37 @@
   var copyToast = document.getElementById("copyToast");
   var toastTimer = null;
 
+  function syncModeButtons(mode) {
+    document.querySelectorAll("[data-mode-set]").forEach(function (btn) {
+      btn.classList.toggle("is-active", btn.getAttribute("data-mode-set") === mode);
+    });
+    var menuMode = document.getElementById("menuModeToggle");
+    if (menuMode) menuMode.textContent = mode === "dark" ? "Switch to light" : "Switch to dark";
+  }
+
   function setMode(mode) {
     document.documentElement.setAttribute("data-mode", mode);
-    var label = document.getElementById("activeModeLabel");
-    if (label) label.textContent = mode === "dark" ? "Dark" : "Light";
-    var toggle = document.getElementById("modeToggle");
-    if (toggle) toggle.setAttribute("aria-pressed", mode === "dark" ? "true" : "false");
+    syncModeButtons(mode);
     try { localStorage.setItem("jemm-guide-mode", mode); } catch (e) {}
+    refreshLogos();
+    var key = document.body.getAttribute("data-scroll-palette");
+    if (key && document.body.getAttribute("data-route") !== "home") {
+      var c = getPaletteColors()[key];
+      if (c) {
+        document.documentElement.style.setProperty("--scroll-bg", c.bg);
+        document.documentElement.style.setProperty("--scroll-fg", c.text);
+      }
+    }
   }
 
   function setLogo(logoId) {
     var logo = logoFiles[logoId];
     if (!logo) return;
     document.documentElement.setAttribute("data-logo", logoId);
-    document.documentElement.style.setProperty("--logo-mark-image", 'url("' + logo.url + '")');
-    document.documentElement.style.setProperty("--logo-mark-image-color", 'url("' + (logo.urlColor || logo.url) + '")');
-    var label = document.getElementById("activeLogoLabel");
-    if (label) label.textContent = logo.label;
     var select = document.getElementById("logoSelect");
     if (select) select.value = logoId;
     try { localStorage.setItem("jemm-guide-logo", logoId); } catch (e) {}
+    refreshLogos();
   }
 
   function syncHeights() {
@@ -127,6 +204,7 @@
   function showHome() {
     document.body.setAttribute("data-route", "home");
     currentRoute = "home";
+    updateDeskNav("home");
     document.querySelectorAll(".section-page").forEach(function (page) {
       page.classList.remove("is-active", "is-leaving");
     });
@@ -139,9 +217,14 @@
       tileGrid.classList.remove("is-exiting");
       tileGrid.classList.add("is-idle");
     }
-    document.querySelectorAll(".tile").forEach(function (t) { t.classList.remove("is-launching"); });
+    document.body.removeAttribute("data-scroll-palette");
+    document.querySelectorAll(".bento, .tile").forEach(function (t) {
+      t.classList.remove("is-launching");
+      t.style.transform = "";
+    });
     window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
     buildPager("");
+    refreshLogos();
   }
 
   function showSection(routeId) {
@@ -149,6 +232,7 @@
     if (!page) return;
     document.body.setAttribute("data-route", routeId);
     currentRoute = routeId;
+    updateDeskNav(routeId);
     if (viewHome) viewHome.classList.add("is-hidden");
     if (viewSections) viewSections.style.display = "block";
     if (tileGrid) tileGrid.classList.remove("is-idle");
@@ -158,12 +242,34 @@
     page.classList.add("is-active");
     buildPager(routeId);
     resetRevealsInSection(page);
+    var firstZone = page.querySelector(".palette-zone[data-palette]");
+    if (firstZone) {
+      var key = firstZone.getAttribute("data-palette");
+      document.body.setAttribute("data-scroll-palette", key);
+      var paletteColors = getPaletteColors();
+      var c = paletteColors[key];
+      if (c) {
+        document.documentElement.style.setProperty("--scroll-bg", c.bg);
+        document.documentElement.style.setProperty("--scroll-fg", c.text);
+      }
+    }
     window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
+    refreshLogos();
   }
 
   function navigateTo(routeId, clickedTile) {
     if (isTransitioning) return;
     if (routeId === currentRoute) return;
+    if (document.body.classList.contains("menu-open")) {
+      var menu = document.getElementById("siteMenu");
+      if (menu) menu.hidden = true;
+      document.body.classList.remove("menu-open");
+      var trigger = document.getElementById("bottomMenuTrigger");
+      if (trigger) {
+        trigger.setAttribute("aria-expanded", "false");
+        trigger.setAttribute("aria-label", "More sections");
+      }
+    }
 
     if (routeId === "home") {
       isTransitioning = true;
@@ -197,8 +303,8 @@
         });
       }, 340);
     } else {
-      var active = document.querySelector(".section-page.is-active");
-      if (active) active.classList.add("is-leaving");
+      var activePage = document.querySelector(".section-page.is-active");
+      if (activePage) activePage.classList.add("is-leaving");
       flashCurtain(function () {
         showSection(routeId);
         document.body.classList.remove("is-transitioning");
@@ -221,7 +327,7 @@
         var route = el.getAttribute("data-route");
         if (!route) return;
         e.preventDefault();
-        navigateTo(route, el.classList.contains("tile") ? el : null);
+        navigateTo(route, el.classList.contains("bento") || el.classList.contains("tile") ? el : null);
       });
     });
     if (sectionBack) sectionBack.addEventListener("click", function () { navigateTo("home"); });
@@ -255,6 +361,179 @@
       document.body.removeChild(ta);
       showToast("Copied " + text);
     }
+  }
+
+  function parseCssVar(style, name) {
+    var match = style.match(new RegExp(name + ":\\s*(#[0-9a-fA-F]{3,8}|[^;]+)"));
+    return match ? match[1].trim() : "";
+  }
+
+  function hexToRgb(hex) {
+    hex = (hex || "").replace("#", "");
+    if (hex.length === 3) {
+      hex = hex.split("").map(function (c) { return c + c; }).join("");
+    }
+    if (hex.length !== 6) return null;
+    var num = parseInt(hex, 16);
+    return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
+  }
+
+  function relativeLuminance(rgb) {
+    function channel(c) {
+      c = c / 255;
+      return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+    }
+    return 0.2126 * channel(rgb.r) + 0.7152 * channel(rgb.g) + 0.0722 * channel(rgb.b);
+  }
+
+  function contrastRatio(fg, bg) {
+    var fgRgb = hexToRgb(fg);
+    var bgRgb = hexToRgb(bg);
+    if (!fgRgb || !bgRgb) return 0;
+    var l1 = relativeLuminance(fgRgb);
+    var l2 = relativeLuminance(bgRgb);
+    var lighter = Math.max(l1, l2);
+    var darker = Math.min(l1, l2);
+    return (lighter + 0.05) / (darker + 0.05);
+  }
+
+  function wcagLevel(ratio) {
+    if (ratio >= 7) return { level: "AAA", pass: true, label: "AAA ✓", className: "pass" };
+    if (ratio >= 4.5) return { level: "AA", pass: true, label: "AA ✓", className: "pass" };
+    if (ratio >= 3) return { level: "AA Large", pass: true, label: "AA Large ✓", className: "large" };
+    return { level: "Fail", pass: false, label: "Fail ✗", className: "fail" };
+  }
+
+  function relativeLuminanceFromHex(hex) {
+    var rgb = hexToRgb(hex);
+    return rgb ? relativeLuminance(rgb) : 0;
+  }
+
+  function outlineStrokeColor(fg, bg) {
+    return relativeLuminanceFromHex(bg) > relativeLuminanceFromHex(fg) ? fg : bg;
+  }
+
+  function needsTextOutline(ratio) {
+    return ratio < 4.5;
+  }
+
+  function applyTextOutline(el, fg, bg, width) {
+    if (!el) return false;
+    var ratio = contrastRatio(fg, bg);
+    if (!needsTextOutline(ratio)) return false;
+    el.classList.add("text-outline--filled", "is-outlined");
+    el.style.setProperty("--text-outline-color", outlineStrokeColor(fg, bg));
+    if (width) el.style.setProperty("--text-outline-width", width);
+    el.setAttribute("data-outline", "required");
+    return true;
+  }
+
+  var PRIMARY_CONTRAST_PAIRS = [
+    { bg: "#059161", fg: "#FFFFFF", bgName: "Emerald", fgName: "White" },
+    { bg: "#EAF6F1", fg: "#059161", bgName: "Success tint", fgName: "Emerald" },
+    { bg: "#F7F5F2", fg: "#059161", bgName: "Coconut", fgName: "Emerald" },
+    { bg: "#002928", fg: "#00D58C", bgName: "Deep Green", fgName: "Neon" },
+    { bg: "#002928", fg: "#FFFFFF", bgName: "Deep Green", fgName: "White" },
+    { bg: "#283239", fg: "#00D58C", bgName: "Steel", fgName: "Neon" },
+    { bg: "#283239", fg: "#FFFFFF", bgName: "Steel", fgName: "White" },
+    { bg: "#121212", fg: "#00D58C", bgName: "Ink", fgName: "Neon" },
+    { bg: "#121212", fg: "#FFFFFF", bgName: "Ink", fgName: "White" },
+    { bg: "#202020", fg: "#00D58C", bgName: "Charcoal", fgName: "Neon" },
+    { bg: "#202020", fg: "#FFFFFF", bgName: "Charcoal", fgName: "White" },
+    { bg: "#202020", fg: "#F7F5F2", bgName: "Charcoal", fgName: "Coconut" },
+    { bg: "#00D58C", fg: "#002928", bgName: "Neon", fgName: "Deep Green" },
+    { bg: "#00D58C", fg: "#202020", bgName: "Neon", fgName: "Charcoal" },
+    { bg: "#FFFFFF", fg: "#283239", bgName: "White", fgName: "Steel" },
+    { bg: "#F7F5F2", fg: "#283239", bgName: "Coconut", fgName: "Steel" }
+  ];
+
+  function buildContrastPairEl(pair) {
+    var ratio = contrastRatio(pair.fg, pair.bg);
+    var wcag = wcagLevel(ratio);
+    var outlined = needsTextOutline(ratio);
+    var el = document.createElement("article");
+    el.className = "contrast-pair";
+    el.innerHTML =
+      '<div class="contrast-pair__sample" style="background:' + pair.bg + ';color:' + pair.fg + '">' +
+        '<span class="contrast-pair__names">' + pair.bgName + " / " + pair.fgName + "</span>" +
+        '<span class="contrast-pair__preview' + (outlined ? " text-outline--filled is-outlined" : "") + '">Aa · jemm.ai</span>' +
+      "</div>" +
+      '<div class="contrast-pair__meta">' +
+        '<span class="contrast-pair__ratio">' + ratio.toFixed(1) + ":1</span>" +
+        '<span class="contrast-pair__wcag contrast-pair__wcag--' + wcag.className + '">' + wcag.label + "</span>" +
+        (outlined ? '<span class="contrast-pair__wcag contrast-pair__wcag--outline">+ outline</span>' : "") +
+      "</div>";
+    if (outlined) {
+      var preview = el.querySelector(".contrast-pair__preview");
+      preview.style.setProperty("--text-outline-color", outlineStrokeColor(pair.fg, pair.bg));
+      preview.style.setProperty("--text-outline-width", "1.25px");
+    }
+    return el;
+  }
+
+  function renderContrastGrids() {
+    ["primaryContrastGrid", "a11yContrastGrid"].forEach(function (id) {
+      var grid = document.getElementById(id);
+      if (!grid || grid.childElementCount) return;
+      PRIMARY_CONTRAST_PAIRS.forEach(function (pair) {
+        grid.appendChild(buildContrastPairEl(pair));
+      });
+    });
+  }
+
+  function initColorBandContrast() {
+    document.querySelectorAll(".color-band").forEach(function (band) {
+      var style = band.getAttribute("style") || "";
+      var bg = parseCssVar(style, "--band");
+      var fg = parseCssVar(style, "--text");
+      if (!bg || !fg) return;
+
+      var ratio = contrastRatio(fg, bg);
+      var wcag = wcagLevel(ratio);
+      var role = band.querySelector(".color-band__role");
+      if (!role) return;
+
+      var meta = band.querySelector(".color-band__meta");
+      if (!meta) {
+        meta = document.createElement("div");
+        meta.className = "color-band__meta";
+        role.parentNode.insertBefore(meta, role);
+        meta.appendChild(role);
+      }
+
+      var badge = band.querySelector(".color-band__contrast");
+      if (!badge) {
+        badge = document.createElement("span");
+        badge.className = "color-band__contrast";
+        meta.appendChild(badge);
+      }
+
+      badge.className = "color-band__contrast color-band__contrast--" + wcag.className;
+      badge.textContent = ratio.toFixed(1) + ":1 · " + wcag.label + (needsTextOutline(ratio) ? " · outline" : "");
+
+      if (needsTextOutline(ratio)) {
+        band.classList.add("is-outlined");
+        var name = band.querySelector(".color-band__name");
+        applyTextOutline(name, fg, bg, "1.25px");
+      }
+    });
+  }
+
+  function initSupportTokenOutlines() {
+    document.querySelectorAll(".support-token").forEach(function (token) {
+      var style = token.getAttribute("style") || "";
+      var bg = parseCssVar(style, "--token-bg");
+      var accent = parseCssVar(style, "--token-accent");
+      if (!bg || !accent) return;
+      var name = token.querySelector(".support-token__name");
+      applyTextOutline(name, accent, bg, "0.75px");
+    });
+  }
+
+  function initContrastPairings() {
+    renderContrastGrids();
+    initColorBandContrast();
+    initSupportTokenOutlines();
   }
 
   function initCopy() {
@@ -295,9 +574,86 @@
     });
   }
 
+  function initPaletteScroll() {
+    var zones = document.querySelectorAll(".palette-zone[data-palette]");
+    var colors = getPaletteColors();
+    if (!("IntersectionObserver" in window) || !zones.length) return;
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.2) {
+          var key = entry.target.getAttribute("data-palette") || "";
+          document.body.setAttribute("data-scroll-palette", key);
+          var c = colors[key];
+          if (c && document.body.getAttribute("data-route") !== "home") {
+            document.documentElement.style.setProperty("--scroll-bg", c.bg);
+            document.documentElement.style.setProperty("--scroll-fg", c.text);
+          }
+        }
+      });
+    }, { threshold: [0.2, 0.35, 0.5], rootMargin: "-20% 0px -20% 0px" });
+    zones.forEach(function (z) { observer.observe(z); });
+  }
+
+  function updateDeskNav(routeId) {
+    var overflowRoutes = ["spacing", "color", "applications", "components", "accessibility"];
+
+    document.querySelectorAll(".desk-nav__btn, .bottom-nav__btn[data-route]").forEach(function (btn) {
+      var active = btn.getAttribute("data-route") === routeId;
+      btn.classList.toggle("is-active", active);
+      if (active) btn.setAttribute("aria-current", "page");
+      else btn.removeAttribute("aria-current");
+    });
+
+    var menuBtn = document.getElementById("bottomMenuTrigger");
+    if (menuBtn) {
+      var overflowActive = overflowRoutes.indexOf(routeId) !== -1;
+      menuBtn.classList.toggle("is-active", overflowActive);
+      if (overflowActive) menuBtn.setAttribute("aria-current", "page");
+      else menuBtn.removeAttribute("aria-current");
+    }
+  }
+
+  function initMenu() {
+    var trigger = document.getElementById("bottomMenuTrigger");
+    var menu = document.getElementById("siteMenu");
+    var backdrop = document.getElementById("menuBackdrop");
+    var menuMode = document.getElementById("menuModeToggle");
+    if (!trigger || !menu) return;
+
+    function openMenu() {
+      menu.hidden = false;
+      document.body.classList.add("menu-open");
+      trigger.setAttribute("aria-expanded", "true");
+      trigger.setAttribute("aria-label", "Close menu");
+    }
+    function closeMenu() {
+      menu.hidden = true;
+      document.body.classList.remove("menu-open");
+      trigger.setAttribute("aria-expanded", "false");
+      trigger.setAttribute("aria-label", "More sections");
+    }
+
+    trigger.addEventListener("click", function () {
+      if (document.body.classList.contains("menu-open")) closeMenu();
+      else openMenu();
+    });
+    if (backdrop) backdrop.addEventListener("click", closeMenu);
+    menu.querySelectorAll("[data-route]").forEach(function (btn) {
+      btn.addEventListener("click", function () { closeMenu(); });
+    });
+    if (menuMode) {
+      menuMode.addEventListener("click", function () {
+        setMode(document.documentElement.getAttribute("data-mode") === "dark" ? "light" : "dark");
+      });
+    }
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && document.body.classList.contains("menu-open")) closeMenu();
+    });
+  }
+
   function initMagneticTiles() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    document.querySelectorAll(".tile").forEach(function (tile) {
+    document.querySelectorAll(".bento, .tile").forEach(function (tile) {
       tile.addEventListener("mousemove", function (e) {
         if (!tileGrid || !tileGrid.classList.contains("is-idle")) return;
         var rect = tile.getBoundingClientRect();
@@ -311,15 +667,14 @@
     });
   }
 
+  document.querySelectorAll("[data-mode-set]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      setMode(btn.getAttribute("data-mode-set"));
+    });
+  });
+
   var logoSelect = document.getElementById("logoSelect");
   if (logoSelect) logoSelect.addEventListener("change", function () { setLogo(logoSelect.value); });
-
-  var modeToggle = document.getElementById("modeToggle");
-  if (modeToggle) {
-    modeToggle.addEventListener("click", function () {
-      setMode(document.documentElement.getAttribute("data-mode") === "dark" ? "light" : "dark");
-    });
-  }
 
   var savedMode = null;
   var savedLogo = null;
@@ -328,20 +683,23 @@
     savedLogo = localStorage.getItem("jemm-guide-logo") || localStorage.getItem("jemm-logo");
   } catch (e) {}
 
-  if (savedLogo === "lockup" || savedLogo === "wordmark" || savedLogo === "mark" || savedLogo === "jemm-logo-png" || savedLogo === "jemm-logo-svg" || savedLogo === "jemm-logo-a" || savedLogo === "jemm-logo-b") {
-    savedLogo = "jemm-logo-v1";
+  if (savedLogo && (savedLogo.indexOf("jemm-logo-v") === 0 || savedLogo === "hex" || savedLogo === "badge")) {
+    savedLogo = "primary";
   }
 
   setMode(savedMode === "dark" ? "dark" : "light");
-  setLogo(savedLogo && logoFiles[savedLogo] ? savedLogo : "jemm-logo-v1");
+  setLogo(savedLogo && logoFiles[savedLogo] ? savedLogo : "primary");
   syncHeights();
   window.addEventListener("resize", syncHeights, { passive: true });
   window.addEventListener("load", syncHeights);
 
+  initMenu();
   initRouting();
   initCopy();
+  initContrastPairings();
   initInteractiveComponents();
   initMagneticTiles();
+  initPaletteScroll();
   if (tileGrid) tileGrid.classList.add("is-idle");
   observeReveals(viewHome);
 })();

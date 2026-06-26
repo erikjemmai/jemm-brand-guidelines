@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="emerald" data-mode="light" data-logo="jemm-logo-v1">
+<html lang="en" data-theme="emerald" data-mode="light" data-logo="primary">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jemm.ai Brand Guidelines</title>
-  <meta name="description" content="The foundation for how Jemm.ai looks, feels, and sounds — Emerald brand system." />
+  <title>jemm.ai brand guidelines</title>
+  <meta name="description" content="The jemm.ai look, feel, and voice — Emerald design system for an AI you own." />
   <link rel="icon" href="assets/favicon.png" type="image/png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -12,22 +12,112 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body data-route="home">
+  <div class="grid-overlay" aria-hidden="true"></div>
+
+  <aside class="guide-rail" id="guideRail" aria-label="Site navigation">
+    <nav class="desk-nav" id="deskNav" aria-label="Framework sections">
+      <button type="button" class="desk-nav__btn" data-route="home" aria-label="Framework" aria-current="page">
+        <svg class="desk-nav__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span class="desk-nav__label">Framework</span>
+      </button>
+      <button type="button" class="desk-nav__btn" data-route="voice" aria-label="Voice">
+        <svg class="desk-nav__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 7c0-2.2 1.8-4 4-4h0c2.2 0 4 1.8 4 4v4.5c0 2.2-1.8 4-4 4H10l-2.5 2.5V15.5H8c-2.2 0-4-1.8-4-4V7z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 8h6M9 11h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span class="desk-nav__label">Voice</span>
+      </button>
+      <button type="button" class="desk-nav__btn" data-route="logo" aria-label="Logo">
+        <img class="desk-nav__icon desk-nav__icon--logo" data-desk-mark src="assets/jemm-mark-icon-light@24.png" alt="" width="22" height="22" />
+        <span class="desk-nav__label">Logo</span>
+      </button>
+      <button type="button" class="desk-nav__btn" data-route="typography" aria-label="Typography">
+        <span class="desk-nav__icon desk-nav__icon--type" aria-hidden="true">Aa</span>
+        <span class="desk-nav__label">Type</span>
+      </button>
+      <button type="button" class="desk-nav__btn" data-route="spacing" aria-label="Spacing">
+        <svg class="desk-nav__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 18V6M12 18V10M19 18V14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <span class="desk-nav__label">Spacing</span>
+      </button>
+      <button type="button" class="desk-nav__btn" data-route="color" aria-label="Color">
+        <svg class="desk-nav__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="8" cy="10" r="3" fill="currentColor" opacity="0.5"/><circle cx="14" cy="8" r="3" fill="currentColor" opacity="0.75"/><circle cx="16" cy="14" r="3" fill="currentColor"/></svg>
+        <span class="desk-nav__label">Color</span>
+      </button>
+      <button type="button" class="desk-nav__btn" data-route="applications" aria-label="Applications">
+        <svg class="desk-nav__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="6" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span class="desk-nav__label">Apps</span>
+      </button>
+      <button type="button" class="desk-nav__btn" data-route="components" aria-label="Components">
+        <svg class="desk-nav__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="8" width="16" height="8" rx="4" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span class="desk-nav__label">UI</span>
+      </button>
+      <button type="button" class="desk-nav__btn" data-route="accessibility" aria-label="Accessibility">
+        <svg class="desk-nav__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="4.5" r="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 8.5h10M12 8.5v5.5M9.5 20l2.5-6 2.5 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="desk-nav__label">A11y</span>
+      </button>
+    </nav>
+  </aside>
+
+  <nav class="site-menu" id="siteMenu" aria-label="More sections" hidden>
+    <div class="site-menu__backdrop" id="menuBackdrop" aria-hidden="true"></div>
+    <div class="site-menu__panel">
+      <p class="site-menu__label">More</p>
+      <ul class="site-menu__list">
+        <li><button type="button" data-route="spacing">Spacing</button></li>
+        <li><button type="button" data-route="color">Color</button></li>
+        <li><button type="button" data-route="applications">Applications</button></li>
+        <li><button type="button" data-route="components">Components</button></li>
+        <li><button type="button" data-route="accessibility">Accessibility</button></li>
+      </ul>
+      <div class="site-menu__meta">
+        <button type="button" class="site-menu__mode" id="menuModeToggle">Toggle dark mode</button>
+      </div>
+    </div>
+  </nav>
+
+  <nav class="bottom-nav" id="bottomNav" aria-label="Mobile navigation">
+    <button type="button" class="bottom-nav__btn" data-route="home" aria-label="Framework" aria-current="page">
+      <svg class="bottom-nav__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.5"/></svg>
+      <span class="bottom-nav__label">Home</span>
+    </button>
+    <button type="button" class="bottom-nav__btn" data-route="voice" aria-label="Voice">
+      <svg class="bottom-nav__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 7c0-2.2 1.8-4 4-4h0c2.2 0 4 1.8 4 4v4.5c0 2.2-1.8 4-4 4H10l-2.5 2.5V15.5H8c-2.2 0-4-1.8-4-4V7z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 8h6M9 11h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <span class="bottom-nav__label">Voice</span>
+    </button>
+    <button type="button" class="bottom-nav__btn" data-route="logo" aria-label="Logo">
+      <img class="bottom-nav__icon bottom-nav__icon--logo" data-bottom-mark src="assets/jemm-mark-icon-light@24.png" alt="" width="22" height="22" />
+      <span class="bottom-nav__label">Logo</span>
+    </button>
+    <button type="button" class="bottom-nav__btn" data-route="typography" aria-label="Typography">
+      <span class="bottom-nav__icon bottom-nav__icon--type" aria-hidden="true">Aa</span>
+      <span class="bottom-nav__label">Type</span>
+    </button>
+    <button type="button" class="bottom-nav__btn bottom-nav__btn--menu" id="bottomMenuTrigger" aria-label="More sections" aria-expanded="false" aria-controls="siteMenu">
+      <svg class="bottom-nav__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 7h14M5 12h14M5 17h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <span class="bottom-nav__label">More</span>
+    </button>
+  </nav>
+
+  <div class="page-chrome">
   <div class="theme-bar">
     <div class="theme-bar__inner">
-      <p class="theme-bar__label">Emerald · <span id="activeModeLabel">Light</span> · Logo <span id="activeLogoLabel">V1</span></p>
+      <a href="#home" class="theme-bar__brand" data-route="home" aria-label="jemm.ai brand guidelines">
+        <img class="theme-bar__mark" data-nav-mark src="assets/jemm-mark-icon-light@24.png" alt="" width="22" height="22" />
+        <span class="theme-bar__copy">
+          <span class="theme-bar__name">jemm.ai</span>
+          <span class="theme-bar__tag">brand guidelines</span>
+        </span>
+      </a>
       <div class="theme-bar__controls">
-        <div class="mode-toggle">
-          <span class="mode-toggle__label">Dark</span>
-          <button class="mode-toggle__switch" type="button" id="modeToggle" aria-label="Toggle dark mode" aria-pressed="false"></button>
+        <div class="guide-segment" role="group" aria-label="Color mode">
+          <button type="button" class="guide-segment__btn is-active" data-mode-set="light" id="modeLight">Light</button>
+          <button type="button" class="guide-segment__btn" data-mode-set="dark" id="modeDark">Dark</button>
         </div>
-        <select class="brand-select" id="logoSelect" aria-label="Logo concept">
-          <option value="jemm-logo-v1">V1 · Lines + house</option>
-          <option value="jemm-logo-v2">V2 · Shield fill</option>
-          <option value="jemm-logo-v3">V3 · Diamond fill</option>
-          <option value="jemm-logo-v4">V4 · Chevron gem</option>
-          <option value="jemm-logo-v5">V5 · Horizon outline</option>
-          <option value="jemm-logo-v6">V6 · Horizon fill</option>
-        </select>
+        <div class="guide-logo-picker">
+          <label class="guide-logo-picker__label" for="logoSelect">Logo</label>
+          <select class="guide-logo-picker__select" id="logoSelect" aria-label="Logo variant">
+            <option value="primary">Lockup</option>
+            <option value="mark">Logomark</option>
+            <option value="wordmark">Logotype</option>
+          </select>
+        </div>
       </div>
     </div>
   </div>
@@ -38,9 +128,8 @@
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M11 4L6 9l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         Framework
       </button>
-      <a href="#home" class="site-nav__logo logo-lockup" data-route="home">
-        <span class="logo-mark" aria-hidden="true"></span>
-        <span class="logo-text">Jemm.ai</span>
+      <a href="#home" class="site-nav__logo" data-route="home">
+        <img class="logo-img logo-img--nav" data-logo-auto data-logo-tone="nav" src="assets/jemm-lockup-light.svg" alt="jemm.ai" />
       </a>
       <span class="site-nav__section-title" id="navSectionTitle"></span>
       <nav class="site-nav__pager" id="navPager" aria-label="Section navigation"></nav>
@@ -49,131 +138,183 @@
 
   <div class="app-shell" id="appShell">
     <!-- HOME — tile grid -->
-    <div class="view-home" id="viewHome">
-      <div class="home-intro">
-        <p class="home-intro__eyebrow">Brand Guidelines · Emerald</p>
-        <h1 class="home-intro__title">How Jemm looks, feels,<br />and sounds like Jemm.</h1>
-        <p class="home-intro__desc">From logos to language, color to components — this collection is the foundation for everything we make. Choose a chapter to explore.</p>
-      </div>
-
-      <div class="tile-grid" id="tileGrid">
-        <button type="button" class="tile tile--voice" data-route="voice" style="--delay:0">
-          <span class="tile__visual" aria-hidden="true"><span class="tile__glyph">“</span></span>
-          <span class="tile__num">01</span>
-          <span class="tile__title">Voice &amp; Tone</span>
-          <span class="tile__desc">Calm · Premium · Sovereign</span>
-          <span class="tile__enter">Enter →</span>
+    <div class="view-home view-home--bento" id="viewHome">
+      <div class="bento-grid" id="tileGrid">
+        <button type="button" class="bento bento--home" data-route="home" style="--delay:0">
+          <span class="bento__title">Home</span>
+          <span class="bento__glyph bento__glyph--grid" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
         </button>
-        <button type="button" class="tile tile--logo" data-route="logo" style="--delay:1">
-          <span class="tile__visual tile__visual--mark" aria-hidden="true"><span class="logo-mark"></span></span>
-          <span class="tile__num">02</span>
-          <span class="tile__title">Logo</span>
-          <span class="tile__desc">Mark · Lockup · Treatments</span>
-          <span class="tile__enter">Enter →</span>
+        <button type="button" class="bento bento--voice" data-route="voice" style="--delay:1">
+          <span class="bento__title">Voice</span>
+          <span class="bento__glyph bento__glyph--quote" aria-hidden="true">“</span>
         </button>
-        <button type="button" class="tile tile--type" data-route="typography" style="--delay:2">
-          <span class="tile__visual" aria-hidden="true"><span class="tile__glyph tile__glyph--type">Aa</span></span>
-          <span class="tile__num">03</span>
-          <span class="tile__title">Typography</span>
-          <span class="tile__desc">Type scale · Atomic tokens</span>
-          <span class="tile__enter">Enter →</span>
+        <button type="button" class="bento bento--logo" data-route="logo" style="--delay:2">
+          <span class="bento__title">Logo</span>
+          <img class="bento__logo" data-logo-auto data-logo-tone="neon" src="assets/jemm-lockup-light.svg" alt="" />
         </button>
-        <button type="button" class="tile tile--spacing" data-route="spacing" style="--delay:3">
-          <span class="tile__visual tile__visual--spacing" aria-hidden="true"><span></span><span></span><span></span></span>
-          <span class="tile__num">04</span>
-          <span class="tile__title">Spacing</span>
-          <span class="tile__desc">4px base · Multiples of 4</span>
-          <span class="tile__enter">Enter →</span>
+        <button type="button" class="bento bento--type bento--wide" data-route="typography" style="--delay:3">
+          <span class="bento__title">Typography</span>
+          <span class="bento__glyph bento__glyph--aa" aria-hidden="true">Aa</span>
         </button>
-        <button type="button" class="tile tile--color tile--wide" data-route="color" style="--delay:4">
-          <span class="tile__visual tile__visual--bands" aria-hidden="true">
-            <span></span><span></span><span></span><span></span>
-          </span>
-          <span class="tile__num">05</span>
-          <span class="tile__title">Color</span>
-          <span class="tile__desc">Emerald palette · Support tints</span>
-          <span class="tile__enter">Enter →</span>
+        <button type="button" class="bento bento--spacing" data-route="spacing" style="--delay:4">
+          <span class="bento__title">Spacing</span>
+          <span class="bento__glyph bento__glyph--bars" aria-hidden="true"><i></i><i></i><i></i></span>
         </button>
-        <button type="button" class="tile tile--apps" data-route="applications" style="--delay:5">
-          <span class="tile__visual tile__visual--card" aria-hidden="true"></span>
-          <span class="tile__num">06</span>
-          <span class="tile__title">Applications</span>
-          <span class="tile__desc">Print · Product · Digital</span>
-          <span class="tile__enter">Enter →</span>
+        <button type="button" class="bento bento--color bento--wide" data-route="color" style="--delay:5">
+          <span class="bento__title">Color</span>
+          <span class="bento__glyph bento__glyph--swatches" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
         </button>
-        <button type="button" class="tile tile--components tile--wide" data-route="components" style="--delay:6">
-          <span class="tile__visual tile__visual--btn" aria-hidden="true"><span>Button</span></span>
-          <span class="tile__num">07</span>
-          <span class="tile__title">Components</span>
-          <span class="tile__desc">Tabs · Toggles · Buttons · Forms</span>
-          <span class="tile__enter">Enter →</span>
+        <button type="button" class="bento bento--apps" data-route="applications" style="--delay:6">
+          <span class="bento__title">Applications</span>
+          <span class="bento__glyph bento__glyph--card" aria-hidden="true"></span>
+        </button>
+        <button type="button" class="bento bento--components" data-route="components" style="--delay:7">
+          <span class="bento__title">Components</span>
+          <span class="bento__glyph bento__glyph--pill" aria-hidden="true">Button</span>
+        </button>
+        <button type="button" class="bento bento--accessibility" data-route="accessibility" style="--delay:8">
+          <span class="bento__title">Accessibility</span>
+          <svg class="bento__glyph bento__glyph--a11y" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="4.5" r="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 8.5h10M12 8.5v5.5M9.5 20l2.5-6 2.5 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
       </div>
-
-      <blockquote class="home-quote">
-        <p>“The best intelligence is the kind you never have to think about.”</p>
-      </blockquote>
     </div>
 
     <!-- SECTIONS -->
     <div class="view-sections" id="viewSections">
       <article class="section-page" id="voice" data-section="voice">
-        <div class="section-page__content">
-          <div class="chapter__header reveal">
-            <span class="chapter__index">01 · Voice &amp; Tone</span>
-            <h2 class="chapter__title">Speak like a steward<br />of the home.</h2>
+        <div class="section-page__content section-page__content--flow">
+          <div class="palette-zone palette-zone--canvas" data-palette="canvas">
+            <div class="palette-zone__inner reveal">
+              <h1 class="display-title"><span class="display-title--outline">talk human.</span> not like a bot.</h1>
+              <p class="display-lead">jemm.ai is AI-first. We help people own their intelligence — local, private, theirs. Write like a smart friend, not a press release.</p>
+            </div>
           </div>
-          <div class="voice-showcase">
-            <article class="voice-block reveal"><span class="voice-block__tag">Sovereign</span><p class="voice-block__quote">Your home, your rules. Local intelligence — never surveillance.</p></article>
-            <article class="voice-block reveal"><span class="voice-block__tag">Calm</span><p class="voice-block__quote">No hype. No urgency tricks. Jemm works invisibly so life feels effortless.</p></article>
-            <article class="voice-block reveal"><span class="voice-block__tag">Premium</span><p class="voice-block__quote">The highest standard of care — quality, discretion, and trust in every word.</p></article>
+          <div class="palette-zone palette-zone--emerald" data-palette="emerald">
+            <div class="palette-zone__inner">
+              <div class="voice-showcase">
+                <article class="voice-block reveal"><span class="voice-block__tag">Own your AI</span><p class="voice-block__quote">Your data stays yours. Your models run local. No fine print.</p></article>
+                <article class="voice-block reveal"><span class="voice-block__tag">Keep it short</span><p class="voice-block__quote">One idea per sentence. Cut the jargon. If a kid gets it, we're good.</p></article>
+                <article class="voice-block reveal"><span class="voice-block__tag">Stay warm</span><p class="voice-block__quote">Confident, not cold. Helpful, not hypey. We're on your side.</p></article>
+              </div>
+            </div>
+          </div>
+          <div class="palette-zone palette-zone--deep" data-palette="deep">
+            <div class="palette-zone__inner reveal">
+              <h2 class="display-title display-title--outline">words we like</h2>
+              <p class="display-lead">yours · local · private · simple · smart · home · control · trust</p>
+            </div>
           </div>
         </div>
       </article>
 
       <article class="section-page" id="logo" data-section="logo">
-        <div class="section-page__content">
-          <div class="chapter__header reveal">
-            <span class="chapter__index">02 · Logo</span>
-            <h2 class="chapter__title">Mark + wordmark.<br />Always Jemm.ai.</h2>
-            <p class="chapter__desc">Use the full lockup in headers and marketing. The mark alone for favicons, app icons, and compact spaces.</p>
+        <div class="section-page__content section-page__content--flow">
+          <div class="palette-zone palette-zone--neon" data-palette="neon">
+            <div class="palette-zone__inner reveal">
+              <h1 class="display-title"><span class="display-title--outline">logo.</span> always jemm.ai.</h1>
+            </div>
           </div>
-          <div class="logo-hero reveal">
-            <span class="logo-lockup logo-lockup--hero"><span class="logo-mark logo-mark--xl" aria-hidden="true"></span><span class="logo-text logo-text--xl">Jemm.ai</span></span>
+
+          <div class="palette-zone palette-zone--canvas" data-palette="canvas">
+            <div class="palette-zone__inner">
+              <div class="logo-full-stage reveal">
+                <img class="logo-img logo-img--hero" src="assets/jemm-lockup@2x.svg" alt="jemm.ai lockup" width="364" height="300" />
+              </div>
+            </div>
           </div>
-          <div class="logo-matrix reveal">
-            <div class="logo-cell logo-cell--1"><span class="logo-text">Jemm.ai</span></div>
-            <div class="logo-cell logo-cell--2"><span class="logo-text">Jemm.ai</span></div>
-            <div class="logo-cell logo-cell--3"><span class="logo-text">Jemm.ai</span></div>
-            <div class="logo-cell logo-cell--4"><span class="logo-text">Jemm.ai</span></div>
-            <div class="logo-cell logo-cell--5"><span class="logo-text">Jemm.ai</span></div>
-            <div class="logo-cell logo-cell--6"><span class="logo-text">Jemm.ai</span></div>
+
+          <div class="palette-zone palette-zone--coconut" data-palette="coconut">
+            <div class="palette-zone__inner">
+              <p class="display-lead logo-types-intro reveal">Lockup · mark + jemm.ai together. Logomark · the icon alone. Logotype · jemm.ai word only.</p>
+              <div class="logo-types reveal">
+                <figure class="logo-type">
+                  <figcaption>Lockup</figcaption>
+                  <div class="logo-type__stage logo-type__stage--light">
+                    <img src="assets/jemm-lockup-light.svg" alt="jemm.ai lockup" class="logo-img logo-img--lockup" width="182" height="150" />
+                  </div>
+                </figure>
+                <figure class="logo-type">
+                  <figcaption>Logomark</figcaption>
+                  <div class="logo-type__stage logo-type__stage--light">
+                    <img src="assets/jemm-mark-light.svg" alt="jemm.ai logomark" class="logo-img logo-img--mark" width="52" height="109" />
+                  </div>
+                </figure>
+                <figure class="logo-type">
+                  <figcaption>Logotype</figcaption>
+                  <div class="logo-type__stage logo-type__stage--light">
+                    <img src="assets/jemm-wordmark-light.svg" alt="jemm.ai logotype" class="logo-img logo-img--word" width="130" height="150" />
+                  </div>
+                </figure>
+              </div>
+            </div>
           </div>
-          <div class="logo-apps reveal">
-            <div class="logo-app"><p class="logo-app__label">Mark · Black</p><div class="logo-app__body logo-app__body--white"><span class="logo-mark logo-mark--lg" aria-hidden="true"></span></div></div>
-            <div class="logo-app"><p class="logo-app__label">Mark · Emerald</p><div class="logo-app__body logo-app__body--coconut"><span class="logo-mark logo-mark--lg" aria-hidden="true"></span></div></div>
-            <div class="logo-app"><p class="logo-app__label">Lockup · Light</p><div class="logo-app__body logo-app__body--coconut"><span class="logo-lockup"><span class="logo-mark" aria-hidden="true"></span><span class="logo-text">Jemm.ai</span></span></div></div>
-            <div class="logo-app"><p class="logo-app__label">Lockup · Dark</p><div class="logo-app__body logo-app__body--dark"><span class="logo-lockup"><span class="logo-mark" aria-hidden="true"></span><span class="logo-text">Jemm.ai</span></span></div></div>
+
+          <div class="palette-zone palette-zone--deep" data-palette="deep">
+            <div class="palette-zone__inner">
+              <h2 class="display-title display-title--sm"><span class="display-title--outline">color</span> treatments</h2>
+              <div class="logo-color-matrix reveal">
+                <div class="logo-color-cell" style="--cell-bg:#ffffff"><img src="assets/jemm-lockup-light.svg" alt="" class="logo-img logo-img--cell" width="182" height="150" /></div>
+                <div class="logo-color-cell" style="--cell-bg:#f7f5f2"><img src="assets/jemm-lockup-light.svg" alt="" class="logo-img logo-img--cell" width="182" height="150" /></div>
+                <div class="logo-color-cell" style="--cell-bg:#059161"><img src="assets/jemm-lockup-dark.svg" alt="" class="logo-img logo-img--cell" width="182" height="150" /></div>
+                <div class="logo-color-cell" style="--cell-bg:#00d58c"><img src="assets/jemm-lockup-light.svg" alt="" class="logo-img logo-img--cell" width="182" height="150" /></div>
+                <div class="logo-color-cell" style="--cell-bg:#002928"><img src="assets/jemm-lockup-dark.svg" alt="" class="logo-img logo-img--cell" width="182" height="150" /></div>
+                <div class="logo-color-cell" style="--cell-bg:#283239"><img src="assets/jemm-lockup-dark.svg" alt="" class="logo-img logo-img--cell" width="182" height="150" /></div>
+                <div class="logo-color-cell" style="--cell-bg:#121212"><img src="assets/jemm-lockup-dark.svg" alt="" class="logo-img logo-img--cell" width="182" height="150" /></div>
+                <div class="logo-color-cell" style="--cell-bg:#202020"><img src="assets/jemm-lockup-dark.svg" alt="" class="logo-img logo-img--cell" width="182" height="150" /></div>
+              </div>
+            </div>
           </div>
-          <div class="rules-grid reveal">
-            <div class="rule rule--do"><strong>Do</strong> Use approved palette combos. Maintain clear space equal to mark height.</div>
-            <div class="rule rule--dont"><strong>Don't</strong> Stretch, rotate, or recolor. Never separate "Jemm" from ".ai".</div>
+
+          <div class="palette-zone palette-zone--emerald" data-palette="emerald">
+            <div class="palette-zone__inner">
+              <h2 class="display-title display-title--sm"><span class="display-title--outline">do</span> &amp; don't</h2>
+              <div class="logo-dodont reveal">
+                <div class="logo-dodont__item logo-dodont__item--do">
+                  <div class="logo-dodont__stage"><img src="assets/jemm-lockup-light.svg" alt="" class="logo-img logo-img--cell" width="182" height="150" /></div>
+                  <p><strong>Do</strong> Use approved colors. Keep clear space around the mark.</p>
+                </div>
+                <div class="logo-dodont__item logo-dodont__item--do">
+                  <div class="logo-dodont__stage"><img src="assets/jemm-mark-light.svg" alt="" class="logo-img logo-img--mark" width="52" height="109" /></div>
+                  <p><strong>Do</strong> Use logomark alone in favicons and app icons.</p>
+                </div>
+                <div class="logo-dodont__item logo-dodont__item--dont">
+                  <div class="logo-dodont__stage"><img src="assets/jemm-lockup-light.svg" alt="" class="logo-img logo-img--cell logo-misuse logo-misuse--flip" width="182" height="150" /></div>
+                  <p><strong>Don't</strong> Rotate or turn the logo upside down.</p>
+                </div>
+                <div class="logo-dodont__item logo-dodont__item--dont">
+                  <div class="logo-dodont__stage"><img src="assets/jemm-lockup-light.svg" alt="" class="logo-img logo-img--cell logo-misuse logo-misuse--stretch" width="182" height="150" /></div>
+                  <p><strong>Don't</strong> Stretch, squash, or distort proportions.</p>
+                </div>
+                <div class="logo-dodont__item logo-dodont__item--dont">
+                  <div class="logo-dodont__stage"><img src="assets/jemm-lockup-light.svg" alt="" class="logo-img logo-img--cell logo-misuse logo-misuse--pink" width="182" height="150" /></div>
+                  <p><strong>Don't</strong> Use pink, red, or off-brand colors.</p>
+                </div>
+                <div class="logo-dodont__item logo-dodont__item--dont">
+                  <div class="logo-dodont__stage logo-dodont__stage--split"><img src="assets/jemm-mark-light.svg" alt="" class="logo-img logo-img--mark logo-misuse--split-mark" width="52" height="109" /><img src="assets/jemm-wordmark-light.svg" alt="" class="logo-img logo-img--word logo-misuse--split-word" width="130" height="150" /></div>
+                  <p><strong>Don't</strong> Separate jemm from .ai or rearrange the lockup.</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </article>
 
       <article class="section-page" id="typography" data-section="typography">
-        <div class="section-page__content">
-          <div class="chapter__header reveal">
-            <span class="chapter__index">03 · Typography</span>
-            <h2 class="chapter__title">Clarity at every scale.</h2>
+        <div class="section-page__content section-page__content--flow">
+          <div class="palette-zone palette-zone--deep" data-palette="deep">
+            <div class="palette-zone__inner reveal">
+              <h1 class="display-title"><span class="display-title--outline">big type.</span> clear voice.</h1>
+              <p class="display-lead">72px headlines for drama. Short sentences for humans. Type that feels friendly, not corporate.</p>
+            </div>
           </div>
+          <div class="palette-zone palette-zone--canvas" data-palette="canvas">
+            <div class="palette-zone__inner">
           <div class="type-hero reveal">
-            <p class="type-hero__display">Bring AI<br />To Your Home</p>
+            <p class="type-hero__display">own your<br />ai at home</p>
             <div class="type-hero__meta"><div><strong>Display</strong> Instrument Sans · 700</div><div><strong>Body</strong> Inter · 400–600</div></div>
           </div>
           <div class="type-specimen reveal">
-            <div class="type-row"><span class="type-row__label">H1</span><span class="type-h1">Hero headline</span><span class="type-row__spec">64–72px / 700</span></div>
+            <div class="type-row"><span class="type-row__label">H1</span><span class="type-h1">Hero headline</span><span class="type-row__spec">72px / 700</span></div>
             <div class="type-row"><span class="type-row__label">H2</span><span class="type-h2">Section heading</span><span class="type-row__spec">48px / 600</span></div>
             <div class="type-row"><span class="type-row__label">H3</span><span class="type-h3">Page title</span><span class="type-row__spec">36px / 600</span></div>
             <div class="type-row"><span class="type-row__label">Body</span><span class="type-body">Standard body copy for paragraphs, descriptions, and UI labels.</span><span class="type-row__spec">16px / 400</span></div>
@@ -183,19 +324,24 @@
             <div class="type-row"><span class="type-row__label">Button LG</span><span class="type-btn-lg">Large button label</span><span class="type-row__spec">16px / 600</span></div>
           </div>
           <div class="wordmark-spec reveal">
-            <span class="logo-text logo-text--wordmark">Jemm.ai</span>
-            <p>Inter Bold · letter-spacing −0.04em · Always "Jemm.ai"</p>
+            <img class="logo-img logo-img--word" src="assets/jemm-wordmark-light.svg" alt="jemm.ai logotype" width="130" height="150" />
+            <p>Always lowercase · always jemm.ai</p>
+          </div>
+            </div>
           </div>
         </div>
       </article>
 
       <article class="section-page" id="spacing" data-section="spacing">
-        <div class="section-page__content">
-          <div class="chapter__header reveal">
-            <span class="chapter__index">04 · Spacing</span>
-            <h2 class="chapter__title">Atomic spacing.<br />Multiples of 4.</h2>
-            <p class="chapter__desc">All layout, padding, and gaps use the 4px base grid. Click any token to copy the value.</p>
+        <div class="section-page__content section-page__content--flow">
+          <div class="palette-zone palette-zone--coconut" data-palette="coconut">
+            <div class="palette-zone__inner reveal">
+              <h1 class="display-title"><span class="display-title--outline">4px grid.</span> no guesswork.</h1>
+              <p class="display-lead">Every gap, pad, and margin lands on a 4px step. Click a token to copy.</p>
+            </div>
           </div>
+          <div class="palette-zone palette-zone--canvas" data-palette="canvas">
+            <div class="palette-zone__inner">
           <div class="spacing-grid reveal">
             <button type="button" class="spacing-token" data-copy="4px"><span class="spacing-token__bar" style="width:4px"></span><span class="spacing-token__label">space-1</span><span class="spacing-token__val">4px</span></button>
             <button type="button" class="spacing-token" data-copy="8px"><span class="spacing-token__bar" style="width:8px"></span><span class="spacing-token__label">space-2</span><span class="spacing-token__val">8px</span></button>
@@ -224,75 +370,191 @@
               <p>Content area with 24px padding on all sides using the atomic token system.</p>
             </div>
           </div>
+            </div>
+          </div>
         </div>
       </article>
 
       <article class="section-page section-page--flush" id="color" data-section="color">
         <div class="section-page__content section-page__content--flush">
-          <div class="chapter__header chapter__header--inset reveal">
-            <span class="chapter__index">05 · Color</span>
-            <h2 class="chapter__title">Emerald.<br />Eight tokens. One system.</h2>
-            <p class="chapter__desc">~70% neutral canvas. ~20% text. ~10% accent. Click any swatch to copy its hex.</p>
+          <div class="palette-zone palette-zone--deep palette-zone--color-hero" data-palette="deep">
+            <div class="palette-zone__inner reveal">
+              <h1 class="color-hero-type">
+                <span class="color-hero-type__solid">a bold</span>
+                <span class="color-hero-type__dot color-hero-type__dot--neon" aria-hidden="true"></span>
+                <span class="color-hero-type__solid">and</span>
+                <span class="color-hero-type__outline">unexpected</span>
+                <span class="color-hero-type__dot color-hero-type__dot--emerald" aria-hidden="true"></span>
+                <span class="color-hero-type__outline">emerald palette</span>
+                <span class="color-hero-type__dot color-hero-type__dot--white" aria-hidden="true"></span>
+                <span class="color-hero-type__outline">is how jemm.ai shows up</span>
+              </h1>
+            </div>
+          </div>
+
+          <div class="palette-zone palette-zone--canvas color-section-intro" data-palette="canvas">
+            <div class="palette-zone__inner reveal">
+              <h2 class="display-title display-title--sm"><span class="display-title--outline">semantic</span> colors</h2>
+              <p class="display-lead">The eight core tokens — surfaces, accents, and type. Use these everywhere in marketing and product chrome.</p>
+            </div>
           </div>
           <div class="color-bands">
             <button type="button" class="color-band reveal" data-hex="#FFFFFF" style="--band:#FFFFFF;--text:#283239"><span class="color-band__name">White</span><span class="color-band__hex">#FFFFFF</span><span class="color-band__role">Primary canvas</span></button>
             <button type="button" class="color-band reveal" data-hex="#F7F5F2" style="--band:#F7F5F2;--text:#283239"><span class="color-band__name">Coconut</span><span class="color-band__hex">#F7F5F2</span><span class="color-band__role">Secondary surface</span></button>
-            <button type="button" class="color-band reveal" data-hex="#059161" style="--band:#059161;--text:#FFFFFF"><span class="color-band__name">Emerald</span><span class="color-band__hex">#059161</span><span class="color-band__role">Primary accent</span></button>
+            <button type="button" class="color-band reveal" data-hex="#059161" style="--band:#059161;--text:#FFFFFF"><span class="color-band__name">Emerald</span><span class="color-band__hex">#059161</span><span class="color-band__role">Primary accent · white type</span></button>
             <button type="button" class="color-band reveal" data-hex="#00D58C" style="--band:#00D58C;--text:#002928"><span class="color-band__name">Neon Green</span><span class="color-band__hex">#00D58C</span><span class="color-band__role">Dark-mode primary</span></button>
             <button type="button" class="color-band reveal" data-hex="#002928" style="--band:#002928;--text:#00D58C"><span class="color-band__name">Deep Green</span><span class="color-band__hex">#002928</span><span class="color-band__role">Footer &amp; overlays</span></button>
             <button type="button" class="color-band reveal" data-hex="#283239" style="--band:#283239;--text:#FFFFFF"><span class="color-band__name">Dark Steel</span><span class="color-band__hex">#283239</span><span class="color-band__role">Light-mode text</span></button>
             <button type="button" class="color-band reveal" data-hex="#121212" style="--band:#121212;--text:#00D58C"><span class="color-band__name">Ink</span><span class="color-band__hex">#121212</span><span class="color-band__role">Dark surfaces</span></button>
             <button type="button" class="color-band reveal" data-hex="#202020" style="--band:#202020;--text:#F7F5F2"><span class="color-band__name">Charcoal</span><span class="color-band__hex">#202020</span><span class="color-band__role">Dark canvas</span></button>
           </div>
+
+          <div class="palette-zone palette-zone--canvas color-pairings-section" data-palette="canvas">
+            <div class="palette-zone__inner reveal">
+              <h2 class="display-title display-title--sm"><span class="display-title--outline">primary</span> pairings</h2>
+              <p class="display-lead">Emerald surfaces use white type. Deep green, steel, ink, and charcoal surfaces use neon green or white. Neon surfaces use deep green or charcoal. When contrast falls below WCAG AA — on mint tints, coconut, or emerald fills — add a text outline stroke.</p>
+              <div class="contrast-rules">
+                <div class="contrast-rule"><strong>Emerald</strong>White type only — add a deep green outline stroke for body sizes.</div>
+                <div class="contrast-rule"><strong>Mint &amp; light tints</strong>Emerald or accent type needs a deep green outline on success/mint backgrounds.</div>
+                <div class="contrast-rule"><strong>Deep · steel · ink · charcoal</strong>Neon green or white type only.</div>
+                <div class="contrast-rule"><strong>Neon</strong>Deep green or charcoal type — never white.</div>
+              </div>
+              <div class="contrast-grid" id="primaryContrastGrid" aria-label="Primary palette contrast pairs"></div>
+            </div>
+          </div>
+
           <div class="color-gradient reveal"><div class="color-gradient__bar"></div><p>Signature gradient · Neon Green → Emerald · 135°</p></div>
-          <div class="color-support">
-            <div class="color-support__header reveal"><h3>Support colors</h3><p>Light tints for feedback, status, and dashboards — use sparingly, never on marketing surfaces.</p></div>
-            <div class="support-grid reveal">
-              <button type="button" class="support-token" data-hex="#EAF6F1" style="--token-bg:#EAF6F1;--token-border:#C2E6D6"><div class="support-token__swatch"></div><div class="support-token__body"><span class="support-token__name">Success</span><span class="support-token__hex">#EAF6F1</span><span class="support-token__role">Confirmations &amp; healthy status</span></div></button>
-              <button type="button" class="support-token" data-hex="#FBF5E9" style="--token-bg:#FBF5E9;--token-border:#EDD9A8"><div class="support-token__swatch"></div><div class="support-token__body"><span class="support-token__name">Warning</span><span class="support-token__hex">#FBF5E9</span><span class="support-token__role">Caution &amp; pending actions</span></div></button>
-              <button type="button" class="support-token" data-hex="#FAF0EE" style="--token-bg:#FAF0EE;--token-border:#E8C4BC"><div class="support-token__swatch"></div><div class="support-token__body"><span class="support-token__name">Error</span><span class="support-token__hex">#FAF0EE</span><span class="support-token__role">Failures &amp; critical alerts</span></div></button>
-              <button type="button" class="support-token" data-hex="#EDF3F9" style="--token-bg:#EDF3F9;--token-border:#BCD0E8"><div class="support-token__swatch"></div><div class="support-token__body"><span class="support-token__name">Info</span><span class="support-token__hex">#EDF3F9</span><span class="support-token__role">Neutral notices &amp; tips</span></div></button>
-              <button type="button" class="support-token" data-hex="#F3EFF9" style="--token-bg:#F3EFF9;--token-border:#DDD0F0"><div class="support-token__swatch"></div><div class="support-token__body"><span class="support-token__name">Lilac</span><span class="support-token__hex">#F3EFF9</span><span class="support-token__role">Dashboard categories</span></div></button>
-              <button type="button" class="support-token" data-hex="#F7F3FB" style="--token-bg:#F7F3FB;--token-border:#E8E0F4"><div class="support-token__swatch"></div><div class="support-token__body"><span class="support-token__name">Soft Violet</span><span class="support-token__hex">#F7F3FB</span><span class="support-token__role">Chart fills</span></div></button>
-              <button type="button" class="support-token" data-hex="#F9F7FC" style="--token-bg:#F9F7FC;--token-border:#EDE8F6"><div class="support-token__swatch"></div><div class="support-token__body"><span class="support-token__name">Mist Purple</span><span class="support-token__hex">#F9F7FC</span><span class="support-token__role">Hover &amp; empty states</span></div></button>
-            </div>
-            <div class="support-alerts reveal">
-              <div class="support-alert support-alert--success"><span class="support-alert__icon" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M6 10l3 3 5-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><strong>Scene activated</strong><p>Evening mode is now running.</p></div></div>
-              <div class="support-alert support-alert--warning"><span class="support-alert__icon" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M10 3L2 17h16L10 3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 8v4M10 14h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span><div><strong>Sensor offline</strong><p>Garage sensor hasn't reported in 2 hours.</p></div></div>
-              <div class="support-alert support-alert--error"><span class="support-alert__icon" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M7 7l6 6M13 7l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span><div><strong>Connection failed</strong><p>Unable to reach your local Jemm hub.</p></div></div>
-              <div class="support-alert support-alert--info"><span class="support-alert__icon" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M10 9v5M10 6h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span><div><strong>Software update</strong><p>Version 2.4 available. Runs locally overnight.</p></div></div>
-            </div>
-            <div class="support-dashboard reveal">
-              <div class="dashboard-mock__header"><p class="dashboard-mock__title">Energy · Last 7 days</p><div class="dashboard-mock__legend"><span class="dashboard-chip dashboard-chip--emerald"><span class="dashboard-chip__dot"></span>HVAC</span><span class="dashboard-chip dashboard-chip--purple"><span class="dashboard-chip__dot"></span>Lighting</span><span class="dashboard-chip dashboard-chip--info"><span class="dashboard-chip__dot"></span>Security</span></div></div>
-              <div class="dashboard-bars"><div class="dashboard-bar dashboard-bar--emerald"></div><div class="dashboard-bar dashboard-bar--purple"></div><div class="dashboard-bar dashboard-bar--info"></div><div class="dashboard-bar dashboard-bar--emerald"></div><div class="dashboard-bar dashboard-bar--mist"></div><div class="dashboard-bar dashboard-bar--purple"></div></div>
+
+          <div class="palette-zone palette-zone--coconut color-section-support" data-palette="coconut">
+            <div class="palette-zone__inner">
+              <div class="color-support__header reveal">
+                <h2 class="display-title display-title--sm"><span class="display-title--outline">support</span> colors</h2>
+                <p class="display-lead">Secondary tints for dashboards, charts, and status — never on marketing heroes. They explain state, category, and data at a glance.</p>
+              </div>
+
+              <div class="color-support-layout reveal">
+                <div class="color-support-main">
+                  <div class="support-grid">
+                    <button type="button" class="support-token" data-hex="#EAF6F1" style="--token-bg:#EAF6F1;--token-border:#C2E6D6;--token-accent:#059161"><div class="support-token__swatch"></div><div class="support-token__body"><span class="support-token__name">Success</span><span class="support-token__hex">#EAF6F1</span><span class="support-token__role">Healthy devices &amp; confirmations</span></div></button>
+                    <button type="button" class="support-token" data-hex="#FBF5E9" style="--token-bg:#FBF5E9;--token-border:#EDD9A8;--token-accent:#A67C00"><div class="support-token__swatch"></div><div class="support-token__body"><span class="support-token__name">Warning</span><span class="support-token__hex">#FBF5E9</span><span class="support-token__role">Pending actions &amp; attention</span></div></button>
+                    <button type="button" class="support-token" data-hex="#FAF0EE" style="--token-bg:#FAF0EE;--token-border:#E8C4BC;--token-accent:#C44B3F"><div class="support-token__swatch"></div><div class="support-token__body"><span class="support-token__name">Error</span><span class="support-token__hex">#FAF0EE</span><span class="support-token__role">Failures &amp; critical alerts</span></div></button>
+                    <button type="button" class="support-token" data-hex="#EDF3F9" style="--token-bg:#EDF3F9;--token-border:#BCD0E8;--token-accent:#3B6FA8"><div class="support-token__swatch"></div><div class="support-token__body"><span class="support-token__name">Info</span><span class="support-token__hex">#EDF3F9</span><span class="support-token__role">Tips &amp; neutral notices</span></div></button>
+                    <button type="button" class="support-token" data-hex="#F3EFF9" style="--token-bg:#F3EFF9;--token-border:#DDD0F0;--token-accent:#7B5BB8"><div class="support-token__swatch"></div><div class="support-token__body"><span class="support-token__name">Lilac</span><span class="support-token__hex">#F3EFF9</span><span class="support-token__role">Room &amp; category labels</span></div></button>
+                    <button type="button" class="support-token" data-hex="#F7F3FB" style="--token-bg:#F7F3FB;--token-border:#E8E0F4;--token-accent:#9B7FD4"><div class="support-token__swatch"></div><div class="support-token__body"><span class="support-token__name">Soft Violet</span><span class="support-token__hex">#F7F3FB</span><span class="support-token__role">Chart series fills</span></div></button>
+                    <button type="button" class="support-token" data-hex="#F9F7FC" style="--token-bg:#F9F7FC;--token-border:#EDE8F6;--token-accent:#B8A8D8"><div class="support-token__swatch"></div><div class="support-token__body"><span class="support-token__name">Mist Purple</span><span class="support-token__hex">#F9F7FC</span><span class="support-token__role">Empty states &amp; hover</span></div></button>
+                  </div>
+
+                  <div class="support-alerts">
+                    <div class="support-alert support-alert--success"><span class="support-alert__icon" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M6 10l3 3 5-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><strong>Scene activated</strong><p>Evening mode is now running locally.</p></div></div>
+                    <div class="support-alert support-alert--warning"><span class="support-alert__icon" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M10 3L2 17h16L10 3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 8v4M10 14h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span><div><strong>Sensor offline</strong><p>Garage sensor hasn't reported in 2 hours.</p></div></div>
+                    <div class="support-alert support-alert--error"><span class="support-alert__icon" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M7 7l6 6M13 7l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span><div><strong>Connection failed</strong><p>Can't reach your local jemm.ai hub.</p></div></div>
+                    <div class="support-alert support-alert--info"><span class="support-alert__icon" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M10 9v5M10 6h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span><div><strong>Software update</strong><p>Version 2.4 available. Runs locally overnight.</p></div></div>
+                  </div>
+                </div>
+
+                <div class="color-support-viz">
+                  <figure class="donut-chart reveal">
+                    <figcaption class="donut-chart__title">Home energy mix</figcaption>
+                    <svg class="donut-chart__svg" viewBox="0 0 200 200" aria-hidden="true">
+                      <circle cx="100" cy="100" r="72" fill="none" stroke="#F3F1ED" stroke-width="28"/>
+                      <circle cx="100" cy="100" r="72" fill="none" stroke="#059161" stroke-width="28" stroke-dasharray="226 226" stroke-dashoffset="0" transform="rotate(-90 100 100)"/>
+                      <circle cx="100" cy="100" r="72" fill="none" stroke="#F3EFF9" stroke-width="28" stroke-dasharray="113 339" stroke-dashoffset="-226" transform="rotate(-90 100 100)"/>
+                      <circle cx="100" cy="100" r="72" fill="none" stroke="#EDF3F9" stroke-width="28" stroke-dasharray="75 377" stroke-dashoffset="-339" transform="rotate(-90 100 100)"/>
+                      <circle cx="100" cy="100" r="72" fill="none" stroke="#FBF5E9" stroke-width="28" stroke-dasharray="45 407" stroke-dashoffset="-414" transform="rotate(-90 100 100)"/>
+                    </svg>
+                    <ul class="donut-chart__legend">
+                      <li><span class="donut-chart__swatch" style="background:#059161"></span>HVAC · emerald</li>
+                      <li><span class="donut-chart__swatch" style="background:#F3EFF9;border:1px solid #DDD0F0"></span>Lighting · lilac</li>
+                      <li><span class="donut-chart__swatch" style="background:#EDF3F9;border:1px solid #BCD0E8"></span>Security · info</li>
+                      <li><span class="donut-chart__swatch" style="background:#FBF5E9;border:1px solid #EDD9A8"></span>Other · warning</li>
+                    </ul>
+                  </figure>
+
+                  <figure class="mobile-dash reveal">
+                    <figcaption class="mobile-dash__title">Smart home · mobile dashboard</figcaption>
+                    <div class="mobile-dash__frame">
+                      <div class="mobile-dash__status">
+                        <span class="mobile-dash__pill mobile-dash__pill--success">All local</span>
+                        <span class="mobile-dash__pill mobile-dash__pill--info">12 devices</span>
+                      </div>
+                      <div class="mobile-dash__header">
+                        <img src="assets/jemm-mark-light.svg" alt="" class="logo-img logo-img--mark-sm" width="52" height="109" />
+                        <div>
+                          <p class="mobile-dash__greet">Good evening</p>
+                          <p class="mobile-dash__sub">Your AI, your home</p>
+                        </div>
+                      </div>
+                      <div class="mobile-dash__cards">
+                        <div class="mobile-dash__card mobile-dash__card--emerald">
+                          <span class="mobile-dash__card-label">Living room</span>
+                          <strong>68°F</strong>
+                          <span class="mobile-dash__card-meta">HVAC · running</span>
+                        </div>
+                        <div class="mobile-dash__card mobile-dash__card--lilac">
+                          <span class="mobile-dash__card-label">Scenes</span>
+                          <strong>Evening</strong>
+                          <span class="mobile-dash__card-meta">6 lights dimmed</span>
+                        </div>
+                        <div class="mobile-dash__card mobile-dash__card--warning">
+                          <span class="mobile-dash__card-label">Garage</span>
+                          <strong>Offline</strong>
+                          <span class="mobile-dash__card-meta">Check sensor</span>
+                        </div>
+                      </div>
+                      <div class="mobile-dash__chart">
+                        <span class="mobile-dash__chart-label">Energy today</span>
+                        <div class="mobile-dash__bars">
+                          <i style="--h:42%;--c:#059161"></i>
+                          <i style="--h:68%;--c:#F3EFF9"></i>
+                          <i style="--h:55%;--c:#EDF3F9"></i>
+                          <i style="--h:80%;--c:#059161"></i>
+                          <i style="--h:35%;--c:#F9F7FC"></i>
+                          <i style="--h:62%;--c:#F3EFF9"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </figure>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </article>
 
       <article class="section-page" id="applications" data-section="applications">
-        <div class="section-page__content">
-          <div class="chapter__header reveal"><span class="chapter__index">06 · Applications</span><h2 class="chapter__title">Brand in the wild.</h2><p class="chapter__desc">Every touchpoint should feel calm, premium, and homeowner-first.</p></div>
+        <div class="section-page__content section-page__content--flow">
+          <div class="palette-zone palette-zone--canvas" data-palette="canvas">
+            <div class="palette-zone__inner reveal">
+              <h1 class="display-title"><span class="display-title--outline">in the wild.</span> make it feel like jemm.ai.</h1>
+              <p class="display-lead">Cards, icons, login — every touchpoint should feel owned, calm, and human.</p>
+            </div>
+          </div>
+          <div class="palette-zone palette-zone--coconut" data-palette="coconut">
+            <div class="palette-zone__inner">
           <div class="apps-showcase">
-            <div class="app-card reveal"><p class="app-card__label">Business card</p><div class="biz-card"><div class="biz-card__top"><span class="logo-lockup"><span class="logo-mark" aria-hidden="true"></span><span class="logo-text logo-text--sm">Jemm.ai</span></span><div><p class="biz-card__name">Jordan Ellis</p><p class="biz-card__title">Customer Success</p></div></div><div class="biz-card__accent"></div><p class="biz-card__contact">jordan@jemm.home · jemm.home</p></div></div>
-            <div class="app-card reveal"><p class="app-card__label">App icon</p><div class="app-icon"><span class="logo-text">Jemm.ai</span></div></div>
-            <div class="app-card reveal"><p class="app-card__label">Login screen</p><div class="login-mock"><span class="logo-lockup"><span class="logo-mark" aria-hidden="true"></span><span class="logo-text logo-text--lg">Jemm.ai</span></span><p class="login-mock__title">Sign in</p><div class="login-mock__field"></div><div class="login-mock__field"></div><button class="btn btn--primary" type="button">Continue</button></div></div>
+            <div class="app-card reveal"><p class="app-card__label">Business card</p><div class="biz-card"><div class="biz-card__top"><img class="logo-img logo-img--sm" data-logo-auto data-logo-tone="light" src="assets/jemm-lockup-light.svg" alt="jemm.ai" width="182" height="150" /><div><p class="biz-card__name">Jordan Ellis</p><p class="biz-card__title">Customer Success</p></div></div><div class="biz-card__accent"></div><p class="biz-card__contact">jordan@jemm.home · jemm.home</p></div></div>
+            <div class="app-card reveal"><p class="app-card__label">App icon</p><div class="app-icon"><img src="assets/jemm-mark-dark.svg" alt="" class="logo-img logo-img--icon" width="52" height="109" /></div></div>
+            <div class="app-card reveal"><p class="app-card__label">Login screen</p><div class="login-mock"><img class="logo-img logo-img--lg" data-logo-auto data-logo-tone="light" src="assets/jemm-lockup-light.svg" alt="jemm.ai" width="182" height="150" /><p class="login-mock__title">Sign in</p><div class="login-mock__field"></div><div class="login-mock__field"></div><button class="btn btn--primary" type="button">Continue</button></div></div>
+          </div>
+            </div>
           </div>
         </div>
       </article>
 
       <article class="section-page" id="components" data-section="components">
-        <div class="section-page__content">
-          <div class="chapter__header reveal">
-            <span class="chapter__index">07 · Components</span>
-            <h2 class="chapter__title">Interactive building blocks.</h2>
-            <p class="chapter__desc">Atomic UI patterns for product surfaces. All spacing uses the 4px grid.</p>
+        <div class="section-page__content section-page__content--flow">
+          <div class="palette-zone palette-zone--ink" data-palette="ink">
+            <div class="palette-zone__inner reveal">
+              <h1 class="display-title"><span class="display-title--outline">build fast.</span> ship smart.</h1>
+              <p class="display-lead">Buttons, tabs, toggles — atomic patterns on the 4px grid.</p>
+            </div>
           </div>
-
+          <div class="palette-zone palette-zone--canvas" data-palette="canvas">
+            <div class="palette-zone__inner">
           <div class="ds-block reveal">
             <p class="ds-label">Buttons · SM 12px · MD 14px · LG 16px</p>
             <div class="component-row">
-              <button class="btn btn--primary btn--lg" type="button">Get Jemm</button>
+              <button class="btn btn--primary btn--lg" type="button">get jemm.ai</button>
               <button class="btn btn--primary" type="button">Primary</button>
               <button class="btn btn--primary btn--sm" type="button">Small</button>
             </div>
@@ -362,11 +624,97 @@
             </div>
           </div>
 
-          <p class="component-note reveal">Radius · 8px buttons · 12px cards · 16px modals · Spacing via --space-* tokens</p>
-          <div class="outro reveal"><h2 class="outro__title">Go make things.</h2><p class="outro__desc">Use the toolkit. Share what you build with the world.</p></div>
+            </div>
+          </div>
+          <div class="palette-zone palette-zone--emerald" data-palette="emerald">
+            <div class="palette-zone__inner">
+          <div class="outro reveal"><h2 class="outro__title display-title--outline">go build.</h2><p class="outro__desc">Use the kit. Own your AI. Ship something great.</p></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="section-page" id="accessibility" data-section="accessibility">
+        <div class="section-page__content section-page__content--flow">
+          <div class="palette-zone palette-zone--canvas" data-palette="canvas">
+            <div class="palette-zone__inner reveal">
+              <h1 class="display-title"><span class="display-title--outline">for everyone.</span> by default.</h1>
+              <p class="display-lead">Accessibility is not a polish pass — it is how jemm.ai earns trust. Design for clarity, contrast, keyboard flows, and screen readers from the first wireframe.</p>
+            </div>
+          </div>
+          <div class="palette-zone palette-zone--coconut" data-palette="coconut">
+            <div class="palette-zone__inner">
+              <div class="a11y-grid reveal">
+                <div class="a11y-card">
+                  <h2 class="a11y-card__title">Color & contrast</h2>
+                  <p class="a11y-card__body">Emerald backgrounds use white type with a deep green outline when body-sized. Mint and light support tints use emerald or accent type with an outline stroke. Deep green, steel, ink, and charcoal backgrounds use neon green or white. Neon backgrounds use deep green or charcoal — never white.</p>
+                </div>
+                <div class="a11y-card">
+                  <h2 class="a11y-card__title">Outline typography</h2>
+                  <p class="a11y-card__body">When any pairing scores below 4.5:1, add a <code>1px</code> stroke in the darker of the two colors — deep green on mint, coconut, and emerald fills. Display headlines can use hollow outline type instead.</p>
+                </div>
+                <div class="a11y-card">
+                  <h2 class="a11y-card__title">Focus & keyboard</h2>
+                  <p class="a11y-card__body">Every interactive control has a visible focus ring using <code>--primary-ring</code>. Tab order follows visual hierarchy; no keyboard traps in menus or modals.</p>
+                </div>
+                <div class="a11y-card">
+                  <h2 class="a11y-card__title">Motion & media</h2>
+                  <p class="a11y-card__body">Respect <code>prefers-reduced-motion</code>. Provide text alternatives for icons and logos. Never rely on color alone to convey state.</p>
+                </div>
+                <div class="a11y-card">
+                  <h2 class="a11y-card__title">Language & UI</h2>
+                  <p class="a11y-card__body">Use plain language, descriptive labels, and sufficient touch targets (44×44px minimum). Announce route changes and form errors to assistive tech.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="palette-zone palette-zone--emerald" data-palette="emerald">
+            <div class="palette-zone__inner">
+              <div class="a11y-pairing-demos reveal">
+                <div class="a11y-pairing-demo a11y-pairing-demo--emerald a11y-pairing-demo--outlined">
+                  <span class="a11y-pairing-demo__label">Emerald + white + outline</span>
+                  <span class="a11y-pairing-demo__text">White type on emerald</span>
+                </div>
+                <div class="a11y-pairing-demo a11y-pairing-demo--mint">
+                  <span class="a11y-pairing-demo__label">Mint + emerald + outline</span>
+                  <span class="a11y-pairing-demo__text">Accent on success tint</span>
+                </div>
+                <div class="a11y-pairing-demo a11y-pairing-demo--deep">
+                  <span class="a11y-pairing-demo__label">Deep green + neon</span>
+                  <span class="a11y-pairing-demo__text">Neon type on dark</span>
+                </div>
+                <div class="a11y-pairing-demo a11y-pairing-demo--steel">
+                  <span class="a11y-pairing-demo__label">Steel + white</span>
+                  <span class="a11y-pairing-demo__text">White type on steel</span>
+                </div>
+                <div class="a11y-pairing-demo a11y-pairing-demo--neon">
+                  <span class="a11y-pairing-demo__label">Neon + deep green</span>
+                  <span class="a11y-pairing-demo__text">Dark type on neon</span>
+                </div>
+              </div>
+              <div class="contrast-grid reveal" id="a11yContrastGrid" aria-label="Primary palette WCAG contrast ratios"></div>
+            </div>
+          </div>
+          <div class="palette-zone palette-zone--neon" data-palette="neon">
+            <div class="palette-zone__inner">
+              <div class="a11y-neon-demo reveal">
+                <p class="ds-label">Neon surface rule</p>
+                <div class="a11y-neon-demo__row">
+                  <div class="a11y-neon-demo__chip a11y-neon-demo__chip--deep">Deep green type</div>
+                  <div class="a11y-neon-demo__chip a11y-neon-demo__chip--charcoal">Charcoal type</div>
+                </div>
+                <p class="a11y-neon-demo__note">Neon is an accent fill — pair with dark type, not white.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </article>
     </div>
+  </div>
+
+  <footer class="site-footer">
+    <p class="site-footer__copy">jemm.ai · all rights reserved</p>
+  </footer>
   </div>
 
   <div class="transition-curtain" id="transitionCurtain" aria-hidden="true"></div>
