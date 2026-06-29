@@ -51,11 +51,20 @@
   }
 
   function refreshLogos() {
+    if (window.jemmLogoTester && window.jemmLogoTester.isActive()) {
+      window.jemmLogoTester.reapply();
+      return;
+    }
+    refreshBuiltInLogos();
+  }
+
+  function refreshBuiltInLogos() {
     var mode = document.documentElement.getAttribute("data-mode") || "light";
     var logoId = document.documentElement.getAttribute("data-logo") || "primary";
     document.querySelectorAll("[data-logo-auto]").forEach(function (el) {
       var tone = el.getAttribute("data-logo-tone") || "light";
       el.src = logoSrc(logoId, mode, tone);
+      el.classList.remove("logo-auto-to-white", "logo-auto-to-black");
     });
     document.querySelectorAll("[data-nav-mark]").forEach(function (el) {
       el.src = markIconSrc(mode);
@@ -72,6 +81,8 @@
         : "assets/jemm-mark-icon-light@24.png";
     });
   }
+
+  window.jemmGuideRefreshBuiltInLogos = refreshBuiltInLogos;
 
   var routes = [
     { id: "voice", label: "Voice & Tone" },
@@ -118,16 +129,6 @@
         document.documentElement.style.setProperty("--scroll-fg", c.text);
       }
     }
-  }
-
-  function setLogo(logoId) {
-    var logo = logoFiles[logoId];
-    if (!logo) return;
-    document.documentElement.setAttribute("data-logo", logoId);
-    var select = document.getElementById("logoSelect");
-    if (select) select.value = logoId;
-    try { localStorage.setItem("jemm-guide-logo", logoId); } catch (e) {}
-    refreshLogos();
   }
 
   function syncHeights() {
@@ -673,22 +674,13 @@
     });
   });
 
-  var logoSelect = document.getElementById("logoSelect");
-  if (logoSelect) logoSelect.addEventListener("change", function () { setLogo(logoSelect.value); });
-
   var savedMode = null;
-  var savedLogo = null;
   try {
     savedMode = localStorage.getItem("jemm-guide-mode") || localStorage.getItem("jemm-mode");
-    savedLogo = localStorage.getItem("jemm-guide-logo") || localStorage.getItem("jemm-logo");
   } catch (e) {}
 
-  if (savedLogo && (savedLogo.indexOf("jemm-logo-v") === 0 || savedLogo === "hex" || savedLogo === "badge")) {
-    savedLogo = "primary";
-  }
-
   setMode(savedMode === "dark" ? "dark" : "light");
-  setLogo(savedLogo && logoFiles[savedLogo] ? savedLogo : "primary");
+  refreshBuiltInLogos();
   syncHeights();
   window.addEventListener("resize", syncHeights, { passive: true });
   window.addEventListener("load", syncHeights);

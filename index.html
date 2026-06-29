@@ -110,14 +110,21 @@
           <button type="button" class="guide-segment__btn is-active" data-mode-set="light" id="modeLight">Light</button>
           <button type="button" class="guide-segment__btn" data-mode-set="dark" id="modeDark">Dark</button>
         </div>
-        <div class="guide-logo-picker">
-          <label class="guide-logo-picker__label" for="logoSelect">Logo</label>
-          <select class="guide-logo-picker__select" id="logoSelect" aria-label="Logo variant">
-            <option value="primary">Lockup</option>
-            <option value="mark">Logomark</option>
-            <option value="wordmark">Logotype</option>
-          </select>
-        </div>
+        <details class="logo-tester" id="logoTester">
+          <summary class="logo-tester__trigger">Test logo</summary>
+          <div class="logo-tester__panel">
+            <label class="logo-tester__field" for="logoSelect">
+              <span class="logo-tester__label">Active logo</span>
+              <select class="logo-tester__select" id="logoSelect" aria-label="Active logo"></select>
+            </label>
+            <button type="button" class="logo-tester__remove" id="logoRemoveBtn" disabled>Remove selected</button>
+            <label class="logo-tester__dropzone" id="logoDropzone">
+              <input type="file" class="logo-tester__input" id="logoFileInput" accept="image/svg+xml,.svg,image/png,image/webp" multiple hidden />
+              <span class="logo-tester__preview" id="logoPreview" aria-hidden="true"></span>
+              <span class="logo-tester__prompt">Drop files to add logos</span>
+            </label>
+          </div>
+        </details>
       </div>
     </div>
   </div>
@@ -218,7 +225,7 @@
           <div class="palette-zone palette-zone--canvas" data-palette="canvas">
             <div class="palette-zone__inner">
               <div class="logo-full-stage reveal">
-                <img class="logo-img logo-img--hero" src="assets/jemm-lockup@2x.svg" alt="jemm.ai lockup" width="364" height="300" />
+                <img class="logo-img logo-img--hero" data-logo-testable src="assets/jemm-lockup@2x.svg" alt="jemm.ai lockup" width="364" height="300" />
               </div>
             </div>
           </div>
@@ -230,7 +237,7 @@
                 <figure class="logo-type">
                   <figcaption>Lockup</figcaption>
                   <div class="logo-type__stage logo-type__stage--light">
-                    <img src="assets/jemm-lockup-light.svg" alt="jemm.ai lockup" class="logo-img logo-img--lockup" width="182" height="150" />
+                    <img src="assets/jemm-lockup-light.svg" alt="jemm.ai lockup" class="logo-img logo-img--lockup" data-logo-testable width="182" height="150" />
                   </div>
                 </figure>
                 <figure class="logo-type">
@@ -253,14 +260,14 @@
             <div class="palette-zone__inner">
               <h2 class="display-title display-title--sm"><span class="display-title--outline">color</span> treatments</h2>
               <div class="logo-color-matrix reveal">
-                <div class="logo-color-cell" style="--cell-bg:#ffffff"><img src="assets/jemm-lockup-light.svg" alt="" class="logo-img logo-img--cell" width="182" height="150" /></div>
-                <div class="logo-color-cell" style="--cell-bg:#f7f5f2"><img src="assets/jemm-lockup-light.svg" alt="" class="logo-img logo-img--cell" width="182" height="150" /></div>
-                <div class="logo-color-cell" style="--cell-bg:#059161"><img src="assets/jemm-lockup-dark.svg" alt="" class="logo-img logo-img--cell" width="182" height="150" /></div>
-                <div class="logo-color-cell" style="--cell-bg:#00d58c"><img src="assets/jemm-lockup-light.svg" alt="" class="logo-img logo-img--cell" width="182" height="150" /></div>
-                <div class="logo-color-cell" style="--cell-bg:#002928"><img src="assets/jemm-lockup-dark.svg" alt="" class="logo-img logo-img--cell" width="182" height="150" /></div>
-                <div class="logo-color-cell" style="--cell-bg:#283239"><img src="assets/jemm-lockup-dark.svg" alt="" class="logo-img logo-img--cell" width="182" height="150" /></div>
-                <div class="logo-color-cell" style="--cell-bg:#121212"><img src="assets/jemm-lockup-dark.svg" alt="" class="logo-img logo-img--cell" width="182" height="150" /></div>
-                <div class="logo-color-cell" style="--cell-bg:#202020"><img src="assets/jemm-lockup-dark.svg" alt="" class="logo-img logo-img--cell" width="182" height="150" /></div>
+                <div class="logo-color-cell" style="--cell-bg:#ffffff"><img src="assets/jemm-lockup-light.svg" alt="" class="logo-img logo-img--cell" data-logo-testable data-logo-tone="light" width="182" height="150" /></div>
+                <div class="logo-color-cell" style="--cell-bg:#f7f5f2"><img src="assets/jemm-lockup-light.svg" alt="" class="logo-img logo-img--cell" data-logo-testable data-logo-tone="light" width="182" height="150" /></div>
+                <div class="logo-color-cell" style="--cell-bg:#059161"><img src="assets/jemm-lockup-dark.svg" alt="" class="logo-img logo-img--cell" data-logo-testable data-logo-tone="emerald" width="182" height="150" /></div>
+                <div class="logo-color-cell" style="--cell-bg:#00d58c"><img src="assets/jemm-lockup-light.svg" alt="" class="logo-img logo-img--cell" data-logo-testable data-logo-tone="neon" width="182" height="150" /></div>
+                <div class="logo-color-cell" style="--cell-bg:#002928"><img src="assets/jemm-lockup-dark.svg" alt="" class="logo-img logo-img--cell" data-logo-testable data-logo-tone="dark" width="182" height="150" /></div>
+                <div class="logo-color-cell" style="--cell-bg:#283239"><img src="assets/jemm-lockup-dark.svg" alt="" class="logo-img logo-img--cell" data-logo-testable data-logo-tone="steel" width="182" height="150" /></div>
+                <div class="logo-color-cell" style="--cell-bg:#121212"><img src="assets/jemm-lockup-dark.svg" alt="" class="logo-img logo-img--cell" data-logo-testable data-logo-tone="dark" width="182" height="150" /></div>
+                <div class="logo-color-cell" style="--cell-bg:#202020"><img src="assets/jemm-lockup-dark.svg" alt="" class="logo-img logo-img--cell" data-logo-testable data-logo-tone="dark" width="182" height="150" /></div>
               </div>
             </div>
           </div>
@@ -270,7 +277,7 @@
               <h2 class="display-title display-title--sm"><span class="display-title--outline">do</span> &amp; don't</h2>
               <div class="logo-dodont reveal">
                 <div class="logo-dodont__item logo-dodont__item--do">
-                  <div class="logo-dodont__stage"><img src="assets/jemm-lockup-light.svg" alt="" class="logo-img logo-img--cell" width="182" height="150" /></div>
+                  <div class="logo-dodont__stage"><img src="assets/jemm-lockup-light.svg" alt="" class="logo-img logo-img--cell" data-logo-testable data-logo-tone="light" width="182" height="150" /></div>
                   <p><strong>Do</strong> Use approved colors. Keep clear space around the mark.</p>
                 </div>
                 <div class="logo-dodont__item logo-dodont__item--do">
@@ -722,5 +729,6 @@
   <div class="copy-toast" id="copyToast" role="status" aria-live="polite">Copied!</div>
 
   <script src="guide.js"></script>
+  <script src="logo-tester.js"></script>
 </body>
 </html>
