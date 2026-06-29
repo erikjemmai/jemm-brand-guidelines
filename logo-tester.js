@@ -3,14 +3,52 @@
   var MAX_BYTES = 1024 * 1024;
   var DEFAULT_ID = "default";
 
+  var DISPLAY_FORMATS = {
+    normal: { label: "Normal lockup" },
+    landscape: { label: "Landscape lockup" },
+    mark: { label: "Logomark" },
+    wordmark: { label: "Logotype" }
+  };
+
+  var DEFAULT_FORMAT = "normal";
+  var LOGOTYPE = "jemm";
+
+  var MARK_DEFAULTS = {
+    light: "assets/jemm-mark-light.svg",
+    dark: "assets/jemm-mark-dark.svg"
+  };
+
+  var PALETTE = [
+    { id: "auto", label: "Auto" },
+    { id: "emerald", label: "Emerald", hex: "#059161" },
+    { id: "neon", label: "Neon Green", hex: "#00D58C" },
+    { id: "deep", label: "Deep Green", hex: "#002928" },
+    { id: "steel", label: "Dark Steel", hex: "#283239" },
+    { id: "white", label: "White", hex: "#FFFFFF" },
+    { id: "ink", label: "Ink", hex: "#121212" }
+  ];
+
   var activeUpload = null;
+  var recolorCache = {};
 
   function createId() {
     return "logo-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 7);
   }
 
   function emptyState() {
-    return { activeId: DEFAULT_ID, logos: [] };
+    return { activeId: DEFAULT_ID, logos: [], displayFormat: DEFAULT_FORMAT };
+  }
+
+  function normalizeDisplayFormat(value) {
+    return DISPLAY_FORMATS[value] ? value : DEFAULT_FORMAT;
+  }
+
+  function getDisplayFormat(state) {
+    return normalizeDisplayFormat(state && state.displayFormat);
+  }
+
+  function syncDisplayFormatAttr(format) {
+    document.documentElement.setAttribute("data-logo-display", normalizeDisplayFormat(format));
   }
 
   function loadState() {
@@ -22,6 +60,7 @@
       if (Array.isArray(data.logos)) {
         return {
           activeId: data.activeId || DEFAULT_ID,
+          displayFormat: normalizeDisplayFormat(data.displayFormat),
           logos: data.logos.filter(function (item) {
             return item && item.id && item.logo && item.tone;
           })
@@ -32,6 +71,7 @@
         var legacyId = createId();
         return {
           activeId: legacyId,
+          displayFormat: DEFAULT_FORMAT,
           logos: [{ id: legacyId, name: "Uploaded logo", logo: data.logo, tone: data.tone }]
         };
       }
@@ -56,10 +96,6 @@
       if (state.logos[i].id === id) return state.logos[i];
     }
     return null;
-  }
-
-  function testableTargets() {
-    return document.querySelectorAll("[data-logo-auto], [data-logo-testable]");
   }
 
   function clearTreatment(img) {
@@ -91,45 +127,301 @@
     return uploadTone === "light" ? "logo-auto-to-black" : null;
   }
 
-  function cacheDefaultSources() {
-    document.querySelectorAll("[data-logo-testable]").forEach(function (el) {
-      if (!el.getAttribute("data-logo-default-src")) {
-        el.setAttribute("data-logo-default-src", el.getAttribute("src") || "");
-      }
+  function isLockupSrc(src) {
+    return src && /lockup/i.test(src);
+  }
+
+  function sizeClassForImg(img) {
+    if (img.classList.contains("logo-img--hero")) return "logo-lockup--hero";
+    if (img.classList.contains("logo-img--nav")) return "logo-lockup--nav";
+    if (img.classList.contains("logo-img--cell")) return "logo-lockup--cell";
+    if (img.classList.contains("logo-img--lockup")) return "logo-lockup--spec";
+    if (img.classList.contains("logo-img--sm")) return "logo-lockup--sm";
+    if (img.classList.contains("logo-img--lg")) return "logo-lockup--lg";
+    if (img.classList.contains("bento__logo")) return "logo-lockup--bento";
+    return "";
+  }
+
+  function createComposedLockup(tone, alt) {
+    var lockup = document.createElement("span");
+    lockup.className = "logo-lockup";
+    lockup.setAttribute("data-logo-tone", tone);
+
+    var compose = document.createElement("span");
+    compose.className = "logo-lockup__compose";
+
+    var markLight = document.createElement("img");
+    markLight.className = "logo-lockup__mark logo-lockup__mark--light";
+    markLight.src = MARK_DEFAULTS.light;
+    markLight.alt = alt || "";
+    markLight.decoding = "async";
+
+    var markDark = document.createElement("img");
+    markDark.className = "logo-lockup__mark logo-lockup__mark--dark";
+    markDark.src = MARK_DEFAULTS.dark;
+    markDark.alt = alt || "";
+    markDark.decoding = "async";
+
+    var type = document.createElement("span");
+    type.className = "logo-lockup__type";
+    type.setAttribute("aria-hidden", "true");
+    type.textContent = LOGOTYPE;
+
+    compose.appendChild(markLight);
+    compose.appendChild(markDark);
+    compose.appendChild(type);
+    lockup.appendChild(compose);
+    return lockup;
+  }
+
+  function migrateLockupImages() {
+    document.querySelectorAll("img[data-logo-auto], img[data-logo-testable]").forEach(function (img) {
+      if (!isLockupSrc(img.getAttribute("src"))) return;
+      if (img.closest(".logo-lockup")) return;
+      if (img.classList.contains("logo-misuse") || img.closest(".logo-misuse")) return;
+
+      var tone = img.getAttribute("data-logo-tone") || "light";
+      var alt = img.getAttribute("alt") || "";
+      var lockup = createComposedLockup(tone, alt);
+      var sizeClass = sizeClassForImg(img);
+      if (sizeClass) lockup.classList.add(sizeClass);
+
+      if (img.hasAttribute("data-logo-testable")) lockup.setAttribute("data-logo-testable", "");
+      if (img.hasAttribute("data-logo-auto")) lockup.setAttribute("data-logo-auto", "");
+
+      img.replaceWith(lockup);
     });
   }
 
-  function applyBuiltInLogos() {
+  function syncLogotypeLabels() {
+    document.querySelectorAll(".logo-lockup__type").forEach(function (el) {
+      el.textContent = LOGOTYPE;
+    });
+  }
+
+  function applyDefaultMarks() {
     activeUpload = null;
-    document.querySelectorAll("[data-logo-testable]").forEach(function (el) {
-      var src = el.getAttribute("data-logo-default-src");
-      if (src) {
-        el.src = src;
-        clearTreatment(el);
-      }
+    document.querySelectorAll(".logo-lockup__mark--light").forEach(function (img) {
+      img.src = MARK_DEFAULTS.light;
+      clearTreatment(img);
+      img.style.display = "";
+    });
+    document.querySelectorAll(".logo-lockup__mark--dark").forEach(function (img) {
+      img.src = MARK_DEFAULTS.dark;
+      clearTreatment(img);
+      img.style.display = "";
+    });
+    document.querySelectorAll('img[data-logo-part="mark"]').forEach(function (img) {
+      clearTreatment(img);
+    });
+    document.querySelectorAll(".logo-lockup__type, [data-logo-part=\"type\"]").forEach(function (el) {
+      el.style.color = "";
+    });
+    document.querySelectorAll(".logo-lockup").forEach(function (lockup) {
+      lockup.style.color = "";
     });
     if (typeof window.jemmGuideRefreshBuiltInLogos === "function") {
       window.jemmGuideRefreshBuiltInLogos();
     }
   }
 
-  function applyUpload(dataUrl, uploadTone) {
-    activeUpload = { logo: dataUrl, tone: uploadTone };
-    testableTargets().forEach(function (el) {
-      el.src = dataUrl;
-      setTreatment(el, treatmentFor(uploadTone, el));
+  function applyCustomMark(dataUrl, uploadTone, paletteColor) {
+    activeUpload = {
+      logo: dataUrl,
+      tone: uploadTone,
+      paletteColor: paletteColor || "auto"
+    };
+    var useAutoTone = !paletteColor || paletteColor === "auto";
+    var hex = paletteColor && paletteColor !== "auto" ? paletteHex(paletteColor) : null;
+
+    document.querySelectorAll(".logo-lockup").forEach(function (lockup) {
+      var tone = lockup.getAttribute("data-logo-tone") || "light";
+      var ctx = contextTone(lockup);
+      var showLight = !isDarkContext(ctx);
+      var lightMark = lockup.querySelector(".logo-lockup__mark--light");
+      var darkMark = lockup.querySelector(".logo-lockup__mark--dark");
+      if (!lightMark || !darkMark) return;
+
+      lightMark.src = dataUrl;
+      darkMark.src = dataUrl;
+      lightMark.style.display = showLight ? "block" : "none";
+      darkMark.style.display = showLight ? "none" : "block";
+
+      clearTreatment(lightMark);
+      clearTreatment(darkMark);
+      if (useAutoTone) {
+        setTreatment(showLight ? lightMark : darkMark, treatmentFor(uploadTone, lockup));
+      }
+
+      var type = lockup.querySelector(".logo-lockup__type");
+      if (type) type.style.color = hex || "";
+      if (!hex) lockup.style.color = "";
+    });
+
+    document.querySelectorAll('img[data-logo-part="mark"]').forEach(function (img) {
+      img.src = dataUrl;
+      clearTreatment(img);
+      if (useAutoTone) setTreatment(img, treatmentFor(uploadTone, img));
+    });
+
+    document.querySelectorAll('[data-logo-part="type"]').forEach(function (el) {
+      el.style.color = hex || "";
     });
   }
 
-  function applyActive(state) {
+  function hexToRgb(hex) {
+    hex = (hex || "").replace("#", "");
+    if (hex.length === 3) hex = hex.split("").map(function (c) { return c + c; }).join("");
+    if (hex.length !== 6) return { r: 0, g: 0, b: 0 };
+    var num = parseInt(hex, 16);
+    return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
+  }
+
+  function paletteHex(colorId) {
+    for (var i = 0; i < PALETTE.length; i += 1) {
+      if (PALETTE[i].id === colorId) return PALETTE[i].hex || null;
+    }
+    return null;
+  }
+
+  function recolorDataUrl(dataUrl, hex, callback) {
+    var rgb = hexToRgb(hex);
+    var img = new Image();
+    img.onload = function () {
+      var width = img.naturalWidth || img.width || 1;
+      var height = img.naturalHeight || img.height || 1;
+      var canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, width, height);
+      var imageData;
+      try {
+        imageData = ctx.getImageData(0, 0, width, height);
+      } catch (e) {
+        callback(dataUrl);
+        return;
+      }
+      var pixels = imageData.data;
+      for (var i = 0; i < pixels.length; i += 4) {
+        if (pixels[i + 3] < 24) continue;
+        pixels[i] = rgb.r;
+        pixels[i + 1] = rgb.g;
+        pixels[i + 2] = rgb.b;
+      }
+      ctx.putImageData(imageData, 0, 0);
+      callback(canvas.toDataURL());
+    };
+    img.onerror = function () {
+      callback(dataUrl);
+    };
+    img.src = dataUrl;
+  }
+
+  function getRecoloredLogo(source, colorId, callback) {
+    var hex = paletteHex(colorId);
+    if (!hex) {
+      callback(source);
+      return;
+    }
+    var key = colorId + "|" + source.length + "|" + source.slice(-48);
+    if (recolorCache[key]) {
+      callback(recolorCache[key]);
+      return;
+    }
+    recolorDataUrl(source, hex, function (result) {
+      recolorCache[key] = result;
+      callback(result);
+    });
+  }
+
+  function renderPalette(state) {
+    var field = document.getElementById("logoPaletteField");
+    var group = document.getElementById("logoColorSwatches");
+    if (!field || !group) return;
+
     var entry = getLogoById(state, state.activeId);
     if (!entry) {
-      applyBuiltInLogos();
+      field.hidden = true;
+      return;
+    }
+    field.hidden = false;
+
+    var current = entry.paletteColor || "auto";
+    if (!group.dataset.rendered) {
+      group.innerHTML = "";
+      PALETTE.forEach(function (item) {
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "logo-tester__swatch" + (item.id === "auto" ? " logo-tester__swatch--auto" : "");
+        btn.setAttribute("data-logo-color", item.id);
+        btn.setAttribute("aria-label", item.label);
+        btn.title = item.label;
+        if (item.hex) btn.style.setProperty("--swatch", item.hex);
+        if (item.id === "auto") btn.textContent = "Auto";
+        btn.addEventListener("click", function () {
+          var next = loadState();
+          var active = getLogoById(next, next.activeId);
+          if (!active) return;
+          active.paletteColor = item.id;
+          saveState(next);
+          syncUi(next);
+        });
+        group.appendChild(btn);
+      });
+      group.dataset.rendered = "1";
+    }
+
+    group.querySelectorAll(".logo-tester__swatch").forEach(function (btn) {
+      var selected = btn.getAttribute("data-logo-color") === current;
+      btn.classList.toggle("is-active", selected);
+      btn.setAttribute("aria-pressed", selected ? "true" : "false");
+    });
+  }
+
+  function renderDisplaySelect(state) {
+    var select = document.getElementById("logoDisplaySelect");
+    if (!select) return;
+    var format = getDisplayFormat(state);
+    if (!select.dataset.rendered) {
+      select.innerHTML = "";
+      Object.keys(DISPLAY_FORMATS).forEach(function (key) {
+        var option = document.createElement("option");
+        option.value = key;
+        option.textContent = DISPLAY_FORMATS[key].label;
+        select.appendChild(option);
+      });
+      select.dataset.rendered = "1";
+    }
+    select.value = format;
+  }
+
+  function applyActive(state) {
+    var format = getDisplayFormat(state);
+    syncDisplayFormatAttr(format);
+    renderDisplaySelect(state);
+    syncLogotypeLabels();
+
+    var entry = getLogoById(state, state.activeId);
+    renderPalette(state);
+    if (!entry) {
+      applyDefaultMarks();
       updatePreview(null);
       return;
     }
-    applyUpload(entry.logo, entry.tone);
-    updatePreview(entry.logo);
+
+    var paletteColor = entry.paletteColor || "auto";
+    function finish(url) {
+      applyCustomMark(url, entry.tone, paletteColor);
+      updatePreview(url);
+    }
+
+    if (paletteColor === "auto") {
+      finish(entry.logo);
+      return;
+    }
+
+    getRecoloredLogo(entry.logo, paletteColor, finish);
   }
 
   function updatePreview(dataUrl) {
@@ -296,7 +588,8 @@
             id: createId(),
             name: file.name || "Uploaded logo",
             logo: dataUrl,
-            tone: tone
+            tone: tone,
+            paletteColor: "auto"
           };
           pending -= 1;
           finishBatch();
@@ -334,10 +627,11 @@
   }
 
   function initLogoTester() {
+    migrateLockupImages();
+
     var tester = document.getElementById("logoTester");
     if (!tester) return;
 
-    cacheDefaultSources();
     var state = loadState();
     syncUi(state);
 
@@ -350,6 +644,15 @@
       select.addEventListener("change", function () {
         var next = loadState();
         next.activeId = select.value || DEFAULT_ID;
+        syncUi(next);
+      });
+    }
+
+    var displaySelect = document.getElementById("logoDisplaySelect");
+    if (displaySelect) {
+      displaySelect.addEventListener("change", function () {
+        var next = loadState();
+        next.displayFormat = normalizeDisplayFormat(displaySelect.value);
         syncUi(next);
       });
     }
@@ -382,8 +685,7 @@
       return !!activeUpload;
     },
     reapply: function () {
-      if (!activeUpload) return;
-      applyUpload(activeUpload.logo, activeUpload.tone);
+      applyActive(loadState());
     }
   };
 

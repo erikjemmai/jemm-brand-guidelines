@@ -7,8 +7,8 @@
 
   function markIconSrc(mode) {
     return mode === "dark"
-      ? "assets/jemm-mark-icon-dark@24.png"
-      : "assets/jemm-mark-icon-light@24.png";
+      ? "assets/jemm-mark-icon-dark.svg"
+      : "assets/jemm-mark-icon-light.svg";
   }
 
   function lockupSrc(tone, mode) {
@@ -60,25 +60,42 @@
 
   function refreshBuiltInLogos() {
     var mode = document.documentElement.getAttribute("data-mode") || "light";
-    var logoId = document.documentElement.getAttribute("data-logo") || "primary";
-    document.querySelectorAll("[data-logo-auto]").forEach(function (el) {
-      var tone = el.getAttribute("data-logo-tone") || "light";
-      el.src = logoSrc(logoId, mode, tone);
-      el.classList.remove("logo-auto-to-white", "logo-auto-to-black");
+
+    document.querySelectorAll(".logo-lockup__mark--light").forEach(function (img) {
+      img.src = "assets/jemm-mark-light.svg";
+      img.classList.remove("logo-auto-to-white", "logo-auto-to-black");
+      img.style.display = "";
     });
+    document.querySelectorAll(".logo-lockup__mark--dark").forEach(function (img) {
+      img.src = "assets/jemm-mark-dark.svg";
+      img.classList.remove("logo-auto-to-white", "logo-auto-to-black");
+      img.style.display = "";
+    });
+
+    document.querySelectorAll(".logo-lockup").forEach(function (lockup) {
+      var type = lockup.querySelector(".logo-lockup__type");
+      if (type) type.style.color = "";
+      lockup.style.color = "";
+    });
+
+    document.querySelectorAll('img[data-logo-part="mark"]').forEach(function (img) {
+      var tone = img.getAttribute("data-logo-tone") || "light";
+      img.src = logoSrc("mark", mode, tone);
+      img.classList.remove("logo-auto-to-white", "logo-auto-to-black");
+    });
+
+    document.querySelectorAll('[data-logo-part="type"]').forEach(function (el) {
+      el.style.color = "";
+    });
+
     document.querySelectorAll("[data-nav-mark]").forEach(function (el) {
       el.src = markIconSrc(mode);
     });
     document.querySelectorAll("[data-desk-mark]").forEach(function (el) {
-      var mode = document.documentElement.getAttribute("data-mode") || "light";
-      el.src = mode === "dark"
-        ? "assets/jemm-mark-icon-dark@24.png"
-        : "assets/jemm-mark-icon-light@24.png";
+      el.src = markIconSrc(mode);
     });
     document.querySelectorAll("[data-bottom-mark]").forEach(function (el) {
-      el.src = mode === "dark"
-        ? "assets/jemm-mark-icon-dark@24.png"
-        : "assets/jemm-mark-icon-light@24.png";
+      el.src = markIconSrc(mode);
     });
   }
 
@@ -120,6 +137,7 @@
     document.documentElement.setAttribute("data-mode", mode);
     syncModeButtons(mode);
     try { localStorage.setItem("jemm-guide-mode", mode); } catch (e) {}
+    if (window.jemmDarkSurface) window.jemmDarkSurface.onModeChange(mode);
     refreshLogos();
     var key = document.body.getAttribute("data-scroll-palette");
     if (key && document.body.getAttribute("data-route") !== "home") {

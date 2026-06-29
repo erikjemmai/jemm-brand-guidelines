@@ -25,7 +25,7 @@
         <span class="desk-nav__label">Voice</span>
       </button>
       <button type="button" class="desk-nav__btn" data-route="logo" aria-label="Logo">
-        <img class="desk-nav__icon desk-nav__icon--logo" data-desk-mark src="assets/jemm-mark-icon-light@24.png" alt="" width="22" height="22" />
+        <img class="desk-nav__icon desk-nav__icon--logo" data-desk-mark src="assets/jemm-mark-icon-light.svg" alt="" width="22" height="22" />
         <span class="desk-nav__label">Logo</span>
       </button>
       <button type="button" class="desk-nav__btn" data-route="typography" aria-label="Typography">
@@ -82,7 +82,7 @@
       <span class="bottom-nav__label">Voice</span>
     </button>
     <button type="button" class="bottom-nav__btn" data-route="logo" aria-label="Logo">
-      <img class="bottom-nav__icon bottom-nav__icon--logo" data-bottom-mark src="assets/jemm-mark-icon-light@24.png" alt="" width="22" height="22" />
+      <img class="bottom-nav__icon bottom-nav__icon--logo" data-bottom-mark src="assets/jemm-mark-icon-light.svg" alt="" width="22" height="22" />
       <span class="bottom-nav__label">Logo</span>
     </button>
     <button type="button" class="bottom-nav__btn" data-route="typography" aria-label="Typography">
@@ -99,7 +99,7 @@
   <div class="theme-bar">
     <div class="theme-bar__inner">
       <a href="#home" class="theme-bar__brand" data-route="home" aria-label="jemm.ai brand guidelines">
-        <img class="theme-bar__mark" data-nav-mark src="assets/jemm-mark-icon-light@24.png" alt="" width="22" height="22" />
+        <img class="theme-bar__mark" data-nav-mark src="assets/jemm-mark-icon-light.svg" alt="" width="22" height="22" />
         <span class="theme-bar__copy">
           <span class="theme-bar__name">jemm.ai</span>
           <span class="theme-bar__tag">brand guidelines</span>
@@ -110,6 +110,27 @@
           <button type="button" class="guide-segment__btn is-active" data-mode-set="light" id="modeLight">Light</button>
           <button type="button" class="guide-segment__btn" data-mode-set="dark" id="modeDark">Dark</button>
         </div>
+        <label class="logo-tester__field dark-surface-picker" for="darkSurfaceSelect">
+          <span class="logo-tester__label">Dark config</span>
+          <select class="logo-tester__select" id="darkSurfaceSelect" aria-label="Dark mode configuration">
+            <optgroup label="Mixed">
+              <option value="charcoal-steel">Charcoal + steel footer</option>
+              <option value="charcoal-deep">Charcoal + deep green footer</option>
+              <option value="deep-charcoal">Deep green + charcoal cards</option>
+              <option value="deep-steel">Deep green + steel surfaces</option>
+              <option value="steel-charcoal">Steel + charcoal cards</option>
+              <option value="steel-deep">Steel + deep green accents</option>
+              <option value="ink-charcoal">Ink + charcoal lift</option>
+              <option value="ink-deep">Ink + deep green footer</option>
+            </optgroup>
+            <optgroup label="Solid">
+              <option value="charcoal">Charcoal mono</option>
+              <option value="ink">Ink mono</option>
+              <option value="deep">Deep green mono</option>
+              <option value="steel">Dark steel mono</option>
+            </optgroup>
+          </select>
+        </label>
         <details class="logo-tester" id="logoTester">
           <summary class="logo-tester__trigger">Test logo</summary>
           <div class="logo-tester__panel">
@@ -117,7 +138,20 @@
               <span class="logo-tester__label">Active logo</span>
               <select class="logo-tester__select" id="logoSelect" aria-label="Active logo"></select>
             </label>
+            <label class="logo-tester__field" for="logoDisplaySelect">
+              <span class="logo-tester__label">Display as</span>
+              <select class="logo-tester__select" id="logoDisplaySelect" aria-label="Logo display format">
+                <option value="normal">Normal lockup</option>
+                <option value="landscape">Landscape lockup</option>
+                <option value="mark">Logomark</option>
+                <option value="wordmark">Logotype</option>
+              </select>
+            </label>
             <button type="button" class="logo-tester__remove" id="logoRemoveBtn" disabled>Remove selected</button>
+            <div class="logo-tester__field logo-tester__field--palette" id="logoPaletteField" hidden>
+              <span class="logo-tester__label">Palette color</span>
+              <div class="logo-tester__swatches" id="logoColorSwatches" role="radiogroup" aria-label="Palette color"></div>
+            </div>
             <label class="logo-tester__dropzone" id="logoDropzone">
               <input type="file" class="logo-tester__input" id="logoFileInput" accept="image/svg+xml,.svg,image/png,image/webp" multiple hidden />
               <span class="logo-tester__preview" id="logoPreview" aria-hidden="true"></span>
@@ -232,24 +266,30 @@
 
           <div class="palette-zone palette-zone--coconut" data-palette="coconut">
             <div class="palette-zone__inner">
-              <p class="display-lead logo-types-intro reveal">Lockup · mark + jemm.ai together. Logomark · the icon alone. Logotype · jemm.ai word only.</p>
+              <p class="display-lead logo-types-intro reveal">Normal lockup · mark above jemm. Landscape · mark beside jemm. Logomark · icon alone. Logotype · jemm in Inter Semibold.</p>
               <div class="logo-types reveal">
                 <figure class="logo-type">
-                  <figcaption>Lockup</figcaption>
+                  <figcaption>Normal lockup</figcaption>
                   <div class="logo-type__stage logo-type__stage--light">
                     <img src="assets/jemm-lockup-light.svg" alt="jemm.ai lockup" class="logo-img logo-img--lockup" data-logo-testable width="182" height="150" />
                   </div>
                 </figure>
                 <figure class="logo-type">
+                  <figcaption>Landscape lockup</figcaption>
+                  <div class="logo-type__stage logo-type__stage--light logo-type__stage--landscape">
+                    <img src="assets/jemm-lockup-light.svg" alt="jemm.ai landscape lockup" class="logo-img logo-img--lockup" data-logo-testable width="182" height="150" />
+                  </div>
+                </figure>
+                <figure class="logo-type">
                   <figcaption>Logomark</figcaption>
                   <div class="logo-type__stage logo-type__stage--light">
-                    <img src="assets/jemm-mark-light.svg" alt="jemm.ai logomark" class="logo-img logo-img--mark" width="52" height="109" />
+                    <img src="assets/jemm-mark-light.svg" alt="jemm.ai logomark" class="logo-img logo-img--mark" data-logo-testable data-logo-part="mark" data-logo-tone="light" width="52" height="109" />
                   </div>
                 </figure>
                 <figure class="logo-type">
                   <figcaption>Logotype</figcaption>
                   <div class="logo-type__stage logo-type__stage--light">
-                    <img src="assets/jemm-wordmark-light.svg" alt="jemm.ai logotype" class="logo-img logo-img--word" width="130" height="150" />
+                    <span class="logo-lockup__type logo-lockup__type--spec" data-logo-part="type" aria-hidden="true">jemm</span>
                   </div>
                 </figure>
               </div>
@@ -728,6 +768,7 @@
   <div class="home-ambient" id="homeAmbient" aria-hidden="true"><span></span><span></span><span></span></div>
   <div class="copy-toast" id="copyToast" role="status" aria-live="polite">Copied!</div>
 
+  <script src="dark-surfaces.js"></script>
   <script src="guide.js"></script>
   <script src="logo-tester.js"></script>
 </body>
