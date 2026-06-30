@@ -475,7 +475,7 @@
     el.innerHTML =
       '<div class="contrast-pair__sample" style="background:' + pair.bg + ';color:' + pair.fg + '">' +
         '<span class="contrast-pair__names">' + pair.bgName + " / " + pair.fgName + "</span>" +
-        '<span class="contrast-pair__preview' + (outlined ? " text-outline--filled is-outlined" : "") + '">Aa · jemm.ai</span>' +
+        '<span class="contrast-pair__preview' + (outlined ? " text-outline--filled is-outlined" : "") + '">Aa · Jemm</span>' +
       "</div>" +
       '<div class="contrast-pair__meta">' +
         '<span class="contrast-pair__ratio">' + ratio.toFixed(1) + ":1</span>" +

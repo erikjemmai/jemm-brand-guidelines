@@ -13,6 +13,60 @@
   var DEFAULT_FORMAT = "normal";
   var LOGOTYPE = "jemm";
 
+  var DODONT = {
+    "do-clearspace": {
+      formats: ["normal", "landscape", "mark", "wordmark"],
+      copy: {
+        normal: "<strong>Do</strong> Use approved colors. Keep clear space around the lockup.",
+        landscape: "<strong>Do</strong> Use approved colors. Keep clear space around the landscape lockup.",
+        mark: "<strong>Do</strong> Use approved colors. Keep clear space around the logomark.",
+        wordmark: "<strong>Do</strong> Use approved colors. Keep clear space around the logotype."
+      }
+    },
+    "do-favicon": {
+      formats: ["normal", "landscape", "mark"],
+      copy: {
+        normal: "<strong>Do</strong> Use the logomark alone in favicons and app icons.",
+        landscape: "<strong>Do</strong> Use the logomark alone in favicons and app icons.",
+        mark: "<strong>Do</strong> Use the logomark alone in favicons and app icons."
+      }
+    },
+    "dont-flip": {
+      formats: ["normal", "landscape", "mark", "wordmark"],
+      copy: {
+        normal: "<strong>Don't</strong> Rotate or turn the lockup upside down.",
+        landscape: "<strong>Don't</strong> Rotate or turn the lockup upside down.",
+        mark: "<strong>Don't</strong> Rotate or turn the logomark upside down.",
+        wordmark: "<strong>Don't</strong> Rotate or flip the logotype."
+      }
+    },
+    "dont-stretch": {
+      formats: ["normal", "landscape", "mark", "wordmark"],
+      copy: {
+        normal: "<strong>Don't</strong> Stretch, squash, or distort lockup proportions.",
+        landscape: "<strong>Don't</strong> Stretch, squash, or distort lockup proportions.",
+        mark: "<strong>Don't</strong> Stretch, squash, or distort the logomark.",
+        wordmark: "<strong>Don't</strong> Stretch, squash, or distort the logotype."
+      }
+    },
+    "dont-pink": {
+      formats: ["normal", "landscape", "mark", "wordmark"],
+      copy: {
+        normal: "<strong>Don't</strong> Use pink, red, or off-brand colors on the lockup.",
+        landscape: "<strong>Don't</strong> Use pink, red, or off-brand colors on the lockup.",
+        mark: "<strong>Don't</strong> Use pink, red, or off-brand colors on the logomark.",
+        wordmark: "<strong>Don't</strong> Use pink, red, or off-brand colors on the logotype."
+      }
+    },
+    "dont-split": {
+      formats: ["normal", "landscape"],
+      copy: {
+        normal: "<strong>Don't</strong> Separate the mark from the logotype or rearrange the lockup.",
+        landscape: "<strong>Don't</strong> Separate the mark from the logotype or rearrange the lockup."
+      }
+    }
+  };
+
   var MARK_DEFAULTS = {
     light: "assets/jemm-mark-light.svg",
     dark: "assets/jemm-mark-dark.svg"
@@ -199,18 +253,23 @@
     });
   }
 
+  function clearMarkInlineStyles() {
+    document.querySelectorAll(".logo-lockup__mark--light, .logo-lockup__mark--dark").forEach(function (img) {
+      img.style.display = "";
+    });
+  }
+
   function applyDefaultMarks() {
     activeUpload = null;
     document.querySelectorAll(".logo-lockup__mark--light").forEach(function (img) {
       img.src = MARK_DEFAULTS.light;
       clearTreatment(img);
-      img.style.display = "";
     });
     document.querySelectorAll(".logo-lockup__mark--dark").forEach(function (img) {
       img.src = MARK_DEFAULTS.dark;
       clearTreatment(img);
-      img.style.display = "";
     });
+    clearMarkInlineStyles();
     document.querySelectorAll('img[data-logo-part="mark"]').forEach(function (img) {
       clearTreatment(img);
     });
@@ -232,30 +291,19 @@
       paletteColor: paletteColor || "auto"
     };
     var useAutoTone = !paletteColor || paletteColor === "auto";
+    var lightTreatment = useAutoTone && uploadTone === "light" ? "logo-auto-to-black" : null;
+    var darkTreatment = useAutoTone && uploadTone === "dark" ? "logo-auto-to-white" : null;
     var hex = paletteColor && paletteColor !== "auto" ? paletteHex(paletteColor) : null;
 
-    document.querySelectorAll(".logo-lockup").forEach(function (lockup) {
-      var tone = lockup.getAttribute("data-logo-tone") || "light";
-      var ctx = contextTone(lockup);
-      var showLight = !isDarkContext(ctx);
-      var lightMark = lockup.querySelector(".logo-lockup__mark--light");
-      var darkMark = lockup.querySelector(".logo-lockup__mark--dark");
-      if (!lightMark || !darkMark) return;
-
-      lightMark.src = dataUrl;
-      darkMark.src = dataUrl;
-      lightMark.style.display = showLight ? "block" : "none";
-      darkMark.style.display = showLight ? "none" : "block";
-
-      clearTreatment(lightMark);
-      clearTreatment(darkMark);
-      if (useAutoTone) {
-        setTreatment(showLight ? lightMark : darkMark, treatmentFor(uploadTone, lockup));
-      }
-
-      var type = lockup.querySelector(".logo-lockup__type");
-      if (type) type.style.color = hex || "";
-      if (!hex) lockup.style.color = "";
+    document.querySelectorAll(".logo-lockup__mark--light").forEach(function (img) {
+      img.src = dataUrl;
+      clearTreatment(img);
+      if (lightTreatment) setTreatment(img, lightTreatment);
+    });
+    document.querySelectorAll(".logo-lockup__mark--dark").forEach(function (img) {
+      img.src = dataUrl;
+      clearTreatment(img);
+      if (darkTreatment) setTreatment(img, darkTreatment);
     });
 
     document.querySelectorAll('img[data-logo-part="mark"]').forEach(function (img) {
@@ -264,7 +312,7 @@
       if (useAutoTone) setTreatment(img, treatmentFor(uploadTone, img));
     });
 
-    document.querySelectorAll('[data-logo-part="type"]').forEach(function (el) {
+    document.querySelectorAll(".logo-lockup__type, [data-logo-part=\"type\"]").forEach(function (el) {
       el.style.color = hex || "";
     });
   }
@@ -396,11 +444,30 @@
     select.value = format;
   }
 
+  function syncDoDont(format) {
+    format = normalizeDisplayFormat(format);
+    document.querySelectorAll("[data-dodont-id]").forEach(function (item) {
+      var id = item.getAttribute("data-dodont-id");
+      var spec = DODONT[id];
+      var text = item.querySelector("[data-dodont-text]");
+      if (!spec) {
+        item.hidden = true;
+        return;
+      }
+      var visible = spec.formats.indexOf(format) !== -1;
+      item.hidden = !visible;
+      if (text && spec.copy[format]) {
+        text.innerHTML = spec.copy[format];
+      }
+    });
+  }
+
   function applyActive(state) {
     var format = getDisplayFormat(state);
     syncDisplayFormatAttr(format);
     renderDisplaySelect(state);
     syncLogotypeLabels();
+    syncDoDont(format);
 
     var entry = getLogoById(state, state.activeId);
     renderPalette(state);
@@ -610,27 +677,63 @@
       input.value = "";
     });
 
-    zone.addEventListener("dragover", function (event) {
-      event.preventDefault();
-      zone.classList.add("is-dragover");
+    zone.addEventListener("click", function (event) {
+      if (event.target === input) return;
+      input.click();
     });
 
-    zone.addEventListener("dragleave", function () {
+    ["dragenter", "dragover"].forEach(function (type) {
+      zone.addEventListener(type, function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        zone.classList.add("is-dragover");
+      });
+    });
+
+    zone.addEventListener("dragleave", function (event) {
+      if (event.relatedTarget && zone.contains(event.relatedTarget)) return;
       zone.classList.remove("is-dragover");
     });
 
     zone.addEventListener("drop", function (event) {
       event.preventDefault();
+      event.stopPropagation();
       zone.classList.remove("is-dragover");
       addFiles(event.dataTransfer.files);
     });
   }
 
+  function positionPanel(trigger, panel) {
+    if (!trigger || !panel || panel.hidden) return;
+
+    var rect = trigger.getBoundingClientRect();
+    var width = Math.min(384, Math.max(240, window.innerWidth - 24));
+    var left = Math.min(
+      Math.max(12, rect.right - width),
+      window.innerWidth - width - 12
+    );
+    var top = rect.bottom + 8;
+    var maxHeight = window.innerHeight - top - 16;
+
+    panel.style.width = width + "px";
+    panel.style.left = left + "px";
+    panel.style.top = top + "px";
+    panel.style.maxHeight = Math.max(180, maxHeight) + "px";
+  }
+
   function initLogoTester() {
     migrateLockupImages();
 
-    var tester = document.getElementById("logoTester");
-    if (!tester) return;
+    var root = document.getElementById("logoTester");
+    if (!root || root.dataset.bound) return;
+    root.dataset.bound = "1";
+
+    var trigger = document.getElementById("logoTesterTrigger");
+    var panel = document.getElementById("logoTesterPanel");
+    if (!trigger || !panel) return;
+
+    var panelHome = document.createComment("logo-tester-panel");
+    root.appendChild(panelHome);
 
     var state = loadState();
     syncUi(state);
@@ -670,14 +773,60 @@
       });
     }
 
-    tester.addEventListener("toggle", function () {
+    function isOpen() {
+      return root.classList.contains("is-open");
+    }
+
+    function containsTarget(target) {
+      return !!(target && (root.contains(target) || panel.contains(target)));
+    }
+
+    function openPanel() {
+      if (isOpen()) return;
+      document.body.appendChild(panel);
+      panel.hidden = false;
+      root.classList.add("is-open");
+      trigger.setAttribute("aria-expanded", "true");
+      positionPanel(trigger, panel);
       window.dispatchEvent(new Event("resize"));
+    }
+
+    function closePanel() {
+      if (!isOpen()) return;
+      root.classList.remove("is-open");
+      trigger.setAttribute("aria-expanded", "false");
+      panel.hidden = true;
+      if (panel.parentNode === document.body) {
+        root.insertBefore(panel, panelHome);
+      }
+    }
+
+    function togglePanel() {
+      if (isOpen()) closePanel();
+      else openPanel();
+    }
+
+    trigger.addEventListener("click", function (event) {
+      event.stopPropagation();
+      togglePanel();
     });
 
     document.addEventListener("click", function (event) {
-      if (!tester.open || tester.contains(event.target)) return;
-      tester.open = false;
+      if (!isOpen() || containsTarget(event.target)) return;
+      closePanel();
     });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && isOpen()) closePanel();
+    });
+
+    window.addEventListener("resize", function () {
+      positionPanel(trigger, panel);
+    });
+
+    window.addEventListener("scroll", function () {
+      positionPanel(trigger, panel);
+    }, true);
   }
 
   window.jemmLogoTester = {
