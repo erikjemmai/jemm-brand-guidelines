@@ -58,7 +58,8 @@
   --space-24: 96px;
 
   /* Type scale */
-  --text-h1: 4.5rem;
+  --text-h1: 4rem;
+  --text-h1-weight: 600;
   --text-h2: 3rem;
   --text-h3: 2.25rem;
   --text-body: 1rem;
@@ -742,8 +743,8 @@ body.is-transitioning .view-home {
 .home-intro__title {
   margin: 0 0 var(--space-4);
   font-family: var(--font-display);
-  font-size: clamp(2.75rem, 6vw + 0.5rem, var(--text-h1));
-  font-weight: 700;
+  font-size: clamp(2rem, 5vw, var(--text-h1));
+  font-weight: var(--text-h1-weight, 600);
   line-height: 1.02;
   letter-spacing: -0.04em;
   text-transform: lowercase;
@@ -1254,8 +1255,8 @@ body[data-route="home"] .home-ambient { opacity: 1; }
 .display-title {
   margin: 0 0 var(--space-5);
   font-family: var(--font-display);
-  font-size: clamp(2.75rem, 6vw + 0.5rem, var(--text-h1));
-  font-weight: 700;
+  font-size: clamp(2rem, 5vw, var(--text-h1));
+  font-weight: var(--text-h1-weight, 600);
   line-height: 1.02;
   letter-spacing: -0.04em;
   text-transform: lowercase;
@@ -1631,7 +1632,7 @@ body[data-route="home"] .home-ambient { opacity: 1; }
   margin: 0 0 var(--space-8);
   font-family: var(--font-display);
   font-size: var(--text-h1);
-  font-weight: 700;
+  font-weight: var(--text-h1-weight, 600);
   line-height: 1.02;
   letter-spacing: -0.04em;
 }
@@ -1683,8 +1684,8 @@ body[data-route="home"] .home-ambient { opacity: 1; }
   font-family: ui-monospace, monospace;
 }
 
-.type-display { font-family: var(--font-display); font-size: var(--text-h1); font-weight: 700; letter-spacing: -0.03em; line-height: 1.08; }
-.type-h1 { font-family: var(--font-display); font-size: var(--text-h1); font-weight: 700; letter-spacing: -0.04em; line-height: 1.02; text-transform: lowercase; }
+.type-display { font-family: var(--font-display); font-size: var(--text-h1); font-weight: var(--text-h1-weight, 600); letter-spacing: -0.03em; line-height: 1.08; }
+.type-h1 { font-family: var(--font-display); font-size: var(--text-h1); font-weight: var(--text-h1-weight, 600); letter-spacing: -0.04em; line-height: 1.02; text-transform: lowercase; }
 .type-h2 { font-family: var(--font-display); font-size: var(--text-h2); font-weight: 600; letter-spacing: -0.02em; line-height: 1.15; }
 .type-h3 { font-family: var(--font-display); font-size: var(--text-h3); font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; }
 .type-body { font-size: var(--text-body); line-height: 1.6; }
@@ -3560,8 +3561,8 @@ body.menu-open .site-menu__panel { transform: translateX(0); }
 .color-hero-type {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
-  font-weight: 700;
+  font-size: clamp(2rem, 5vw, var(--text-h1));
+  font-weight: var(--text-h1-weight, 600);
   line-height: 1.08;
   letter-spacing: -0.04em;
   text-transform: lowercase;

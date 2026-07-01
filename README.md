@@ -10,7 +10,7 @@ Official Emerald brand system for [Jemm.ai](https://jemm.ai) — interactive til
 |---|---------|----------|
 | 01 | Voice & Tone | Brand personality pillars |
 | 02 | Logo | Mark, lockup, treatments |
-| 03 | Typography | H1 64–72 · H2 48 · H3 36 · Body 16 · Caption 12 |
+| 03 | Typography | H1 64 · H2 48 · H3 36 · Body 16 · Caption 12 |
 | 04 | Spacing | Atomic 4px grid (`--space-1` through `--space-24`) |
 | 05 | Color | Emerald palette + support tints |
 | 06 | Applications | Business card, app icon, login |
@@ -41,7 +41,7 @@ chmod +x scripts/publish.sh
 ### Type
 | Token | Size | Use |
 |-------|------|-----|
-| H1 | 64–72px | Hero headlines |
+| H1 | 64px / 600 | Hero headlines |
 | H2 | 48px | Section headings |
 | H3 | 36px | Page titles |
 | Body | 16px | Paragraphs, UI |
