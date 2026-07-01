@@ -41,9 +41,9 @@ chmod +x scripts/publish.sh
 ### Type
 | Token | Size | Use |
 |-------|------|-----|
-| H1 | 64px / 600 | Hero headlines |
-| H2 | 48px | Section headings |
-| H3 | 36px | Page titles |
+| H1 | 48px / 600 | Hero headlines |
+| H2 | 48px / 600 | Section headings |
+| H3 | 36px / 500 | Subsection titles, cards |
 | Body | 16px | Paragraphs, UI |
 | Caption | 12px | Metadata, labels |
 | Button SM/MD/LG | 12 / 14 / 16px | Button labels |

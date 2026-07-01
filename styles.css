@@ -58,10 +58,13 @@
   --space-24: 96px;
 
   /* Type scale */
-  --text-h1: 4rem;
+  --site-max-width: 1400px;
+  --text-h1: 3rem;
   --text-h1-weight: 600;
   --text-h2: 3rem;
+  --text-h2-weight: 600;
   --text-h3: 2.25rem;
+  --text-h3-weight: 500;
   --text-body: 1rem;
   --text-caption: 0.75rem;
   --text-btn-sm: 0.75rem;
@@ -1686,8 +1689,8 @@ body[data-route="home"] .home-ambient { opacity: 1; }
 
 .type-display { font-family: var(--font-display); font-size: var(--text-h1); font-weight: var(--text-h1-weight, 600); letter-spacing: -0.03em; line-height: 1.08; }
 .type-h1 { font-family: var(--font-display); font-size: var(--text-h1); font-weight: var(--text-h1-weight, 600); letter-spacing: -0.04em; line-height: 1.02; text-transform: lowercase; }
-.type-h2 { font-family: var(--font-display); font-size: var(--text-h2); font-weight: 600; letter-spacing: -0.02em; line-height: 1.15; }
-.type-h3 { font-family: var(--font-display); font-size: var(--text-h3); font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; }
+.type-h2 { font-family: var(--font-display); font-size: var(--text-h2); font-weight: var(--text-h2-weight, 600); letter-spacing: -0.02em; line-height: 1.15; }
+.type-h3 { font-family: var(--font-display); font-size: var(--text-h3); font-weight: var(--text-h3-weight, 500); letter-spacing: -0.02em; line-height: 1.2; }
 .type-body { font-size: var(--text-body); line-height: 1.6; }
 .type-caption { font-size: var(--text-caption); font-weight: 500; color: var(--text-secondary); line-height: 1.5; }
 .type-btn-sm { font-size: var(--text-btn-sm); font-weight: 500; }
