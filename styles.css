@@ -6358,6 +6358,7 @@ body[data-scroll-palette="ink"] .site-nav {
 .logo-mode--hero .logo-mode__img { max-height: clamp(120px, 22vw, 180px); }
 .logo-mode--spec .logo-mode__img { max-height: 96px; }
 .logo-mode--landscape .logo-mode__img { max-height: 56px; }
+.logo-mode--vertical .logo-mode__img { max-height: 96px; }
 .logo-mode--mark .logo-mode__img { max-height: 72px; }
 .logo-mode--type .logo-mode__img { max-height: 36px; }
 .logo-mode--dodont .logo-mode__img { max-height: 72px; }
@@ -6474,6 +6475,11 @@ body[data-scroll-palette="ink"] .site-nav {
 
 .logo-clearspace-diagram--landscape {
   --jemm-x-type-size: 0.95rem;
+  width: 100%;
+}
+
+.logo-clearspace-diagram--vertical {
+  --jemm-x-type-size: 1.375rem;
   width: 100%;
 }
 
@@ -6631,6 +6637,59 @@ body[data-scroll-palette="ink"] .site-nav {
   border-bottom: 1px dashed var(--clearspace-line);
 }
 
+/* Official lockup PNGs in clear space diagrams */
+.logo-clearspace-lockup--asset {
+  position: relative;
+  display: inline-block;
+  line-height: 0;
+  max-width: 100%;
+}
+
+.logo-clearspace-lockup__asset {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+[data-mode="light"] .logo-clearspace-lockup__asset--dark { display: none; }
+[data-mode="dark"] .logo-clearspace-lockup__asset--light { display: none; }
+
+.logo-clearspace-lockup--landscape.logo-clearspace-lockup--asset .logo-clearspace-lockup__asset {
+  max-height: 2.75rem;
+}
+
+.logo-clearspace-lockup--vertical.logo-clearspace-lockup--asset .logo-clearspace-lockup__asset {
+  max-height: 5.5rem;
+}
+
+.logo-clearspace-lockup__gap-callout {
+  position: absolute;
+  font-family: var(--font);
+  font-size: 0.5625rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: rgba(5, 145, 97, 0.92);
+  line-height: 1;
+  white-space: nowrap;
+  pointer-events: none;
+  padding: 2px 4px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(5, 145, 97, 0.15);
+}
+
+.logo-clearspace-lockup--landscape .logo-clearspace-lockup__gap-callout {
+  left: 22%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.logo-clearspace-lockup--vertical .logo-clearspace-lockup__gap-callout {
+  left: 50%;
+  top: 52%;
+  transform: translate(-50%, -50%);
+}
+
 .logo-clearspace-lockup__between-label {
   font-family: var(--font);
   font-size: 0.5625rem;
@@ -6710,8 +6769,14 @@ body[data-scroll-palette="ink"] .site-nav {
 
 [data-mode="dark"] .logo-clearspace-diagram__zone-label,
 [data-mode="dark"] .logo-clearspace-diagram__x,
-[data-mode="dark"] .logo-clearspace-lockup__between-label {
+[data-mode="dark"] .logo-clearspace-lockup__between-label,
+[data-mode="dark"] .logo-clearspace-lockup__gap-callout {
   color: rgba(0, 213, 140, 0.92);
+}
+
+[data-mode="dark"] .logo-clearspace-lockup__gap-callout {
+  background: rgba(18, 18, 18, 0.88);
+  box-shadow: 0 0 0 1px rgba(0, 213, 140, 0.2);
 }
 
 [data-mode="dark"] .logo-clearspace-diagram__inner {
