@@ -1,8 +1,8 @@
 (function () {
   function markIconSrc(mode) {
     return mode === "dark"
-      ? "assets/logos/mark-icon-white.svg"
-      : "assets/logos/mark-icon-charcoal.svg";
+      ? "assets/logos/mark-icon-white.png"
+      : "assets/logos/mark-icon-charcoal.png";
   }
 
   function refreshLogos() {
@@ -471,22 +471,22 @@
 
   var MERCH_LOGO_SETS = {
     mark: {
-      light: "assets/logos/mark-charcoal.svg",
-      dark: "assets/logos/mark-white.svg",
-      onNeon: "assets/logos/mark-charcoal.svg",
-      onEmerald: "assets/logos/mark-white.svg"
+      light: "assets/logos/mark-charcoal.png",
+      dark: "assets/logos/mark-white.png",
+      onNeon: "assets/logos/mark-charcoal.png",
+      onEmerald: "assets/logos/mark-white.png"
     },
     type: {
-      light: "assets/logos/type-charcoal.svg",
-      dark: "assets/logos/type-white.svg",
-      onNeon: "assets/logos/type-charcoal.svg",
-      onEmerald: "assets/logos/type-white.svg"
+      light: "assets/logos/type-charcoal.png",
+      dark: "assets/logos/type-white.png",
+      onNeon: "assets/logos/type-charcoal.png",
+      onEmerald: "assets/logos/type-white.png"
     },
     lockup: {
-      light: "assets/logos/lockup-vertical-charcoal.svg",
-      dark: "assets/logos/lockup-vertical-white.svg",
-      onNeon: "assets/logos/lockup-vertical-charcoal.svg",
-      onEmerald: "assets/logos/lockup-vertical-white.svg"
+      light: "assets/logos/lockup-vertical-charcoal.png",
+      dark: "assets/logos/lockup-vertical-white.png",
+      onNeon: "assets/logos/lockup-vertical-charcoal.png",
+      onEmerald: "assets/logos/lockup-vertical-white.png"
     }
   };
 
