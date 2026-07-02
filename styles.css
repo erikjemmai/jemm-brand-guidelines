@@ -39,7 +39,7 @@
   --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
   --shadow-md: 0 8px 32px rgba(15, 23, 42, 0.08);
   --shadow-lg: 0 24px 64px rgba(15, 23, 42, 0.12);
-  --logo-mark-image: url("assets/jemm-mark.png");
+  --logo-mark-image: url("assets/logos/mark-charcoal.svg");
   --btn-on-primary: #ffffff;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -1436,8 +1436,8 @@ body[data-route="home"] .home-ambient { opacity: 1; }
 }
 
 .nav-icon--logo {
-  mask-image: url("assets/logos/mark-emerald-charcoal.png");
-  -webkit-mask-image: url("assets/logos/mark-emerald-charcoal.png");
+  mask-image: url("assets/logos/mark-charcoal.svg");
+  -webkit-mask-image: url("assets/logos/mark-charcoal.svg");
 }
 
 .nav-icon--typography {
@@ -6688,6 +6688,17 @@ body[data-scroll-palette="ink"] .site-nav {
   left: 50%;
   top: 52%;
   transform: translate(-50%, -50%);
+}
+
+.logo-clearspace-lockup--type .logo-clearspace-lockup__type-img {
+  display: inline-flex;
+  line-height: 0;
+}
+
+.logo-clearspace-lockup--type .logo-clearspace-lockup__type-img .logo-clearspace-lockup__mark-img {
+  height: 1.35em;
+  max-width: 100%;
+  object-fit: contain;
 }
 
 .logo-clearspace-lockup__between-label {
