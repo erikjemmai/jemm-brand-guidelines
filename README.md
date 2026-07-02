@@ -2,7 +2,7 @@
 
 Official Emerald brand system for [Jemm.ai](https://jemm.ai) — interactive tile-based guidelines with atomic spacing, typography, color, and component specs.
 
-**Live site:** Enable GitHub Pages after publishing (see below).
+**Live site:** https://erikjemmai.github.io/jemm-brand-guidelines/
 
 ## Chapters
 
