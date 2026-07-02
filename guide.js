@@ -1,40 +1,20 @@
 (function () {
-  var logoFiles = {
-    primary: { label: "Lockup" },
-    mark: { label: "Logomark" },
-    wordmark: { label: "Logotype" }
-  };
-
   function markIconSrc(mode) {
     return mode === "dark"
-      ? "assets/jemm-mark-icon-dark.svg"
-      : "assets/jemm-mark-icon-light.svg";
+      ? "assets/logos/mark-icon-neon.png"
+      : "assets/logos/mark-icon-emerald.png";
   }
 
-  function lockupSrc(tone, mode) {
-    if (tone === "neon" || tone === "light") return "assets/jemm-lockup-light.svg";
-    if (tone === "emerald" || tone === "dark" || tone === "steel") return "assets/jemm-lockup-dark.svg";
-    if (tone === "nav") {
-      if (document.body.getAttribute("data-route") === "home") {
-        return mode === "dark" ? "assets/jemm-lockup-dark.svg" : "assets/jemm-lockup-light.svg";
-      }
-      return mode === "dark" ? "assets/jemm-lockup-dark.svg" : "assets/jemm-lockup-light.svg";
-    }
-    return mode === "dark" ? "assets/jemm-lockup-dark.svg" : "assets/jemm-lockup-light.svg";
+  function refreshLogos() {
+    refreshBuiltInLogos();
   }
 
-  function logoSrc(logoId, mode, tone) {
-    if (logoId === "mark") {
-      return (tone === "dark" || tone === "emerald" || mode === "dark") && tone !== "light" && tone !== "neon"
-        ? "assets/jemm-mark-dark.svg"
-        : "assets/jemm-mark-light.svg";
-    }
-    if (logoId === "wordmark") {
-      return (tone === "dark" || tone === "emerald" || mode === "dark") && tone !== "light" && tone !== "neon"
-        ? "assets/jemm-wordmark-dark.svg"
-        : "assets/jemm-wordmark-light.svg";
-    }
-    return lockupSrc(tone, mode);
+  function refreshBuiltInLogos() {
+    var mode = document.documentElement.getAttribute("data-mode") || "light";
+
+    document.querySelectorAll("[data-nav-mark]").forEach(function (el) {
+      el.src = markIconSrc(mode);
+    });
   }
 
   function getPaletteColors() {
@@ -50,63 +30,14 @@
     };
   }
 
-  function refreshLogos() {
-    if (window.jemmLogoTester && window.jemmLogoTester.isActive()) {
-      window.jemmLogoTester.reapply();
-      return;
-    }
-    refreshBuiltInLogos();
-  }
-
-  function refreshBuiltInLogos() {
-    var mode = document.documentElement.getAttribute("data-mode") || "light";
-
-    document.querySelectorAll(".logo-lockup__mark--light").forEach(function (img) {
-      img.src = "assets/jemm-mark-light.svg";
-      img.classList.remove("logo-auto-to-white", "logo-auto-to-black");
-      img.style.display = "";
-    });
-    document.querySelectorAll(".logo-lockup__mark--dark").forEach(function (img) {
-      img.src = "assets/jemm-mark-dark.svg";
-      img.classList.remove("logo-auto-to-white", "logo-auto-to-black");
-      img.style.display = "";
-    });
-
-    document.querySelectorAll(".logo-lockup").forEach(function (lockup) {
-      var type = lockup.querySelector(".logo-lockup__type");
-      if (type) type.style.color = "";
-      lockup.style.color = "";
-    });
-
-    document.querySelectorAll('img[data-logo-part="mark"]').forEach(function (img) {
-      var tone = img.getAttribute("data-logo-tone") || "light";
-      img.src = logoSrc("mark", mode, tone);
-      img.classList.remove("logo-auto-to-white", "logo-auto-to-black");
-    });
-
-    document.querySelectorAll('[data-logo-part="type"]').forEach(function (el) {
-      el.style.color = "";
-    });
-
-    document.querySelectorAll("[data-nav-mark]").forEach(function (el) {
-      el.src = markIconSrc(mode);
-    });
-    document.querySelectorAll("[data-desk-mark]").forEach(function (el) {
-      el.src = markIconSrc(mode);
-    });
-    document.querySelectorAll("[data-bottom-mark]").forEach(function (el) {
-      el.src = markIconSrc(mode);
-    });
-  }
-
   window.jemmGuideRefreshBuiltInLogos = refreshBuiltInLogos;
 
   var routes = [
-    { id: "voice", label: "Voice & Tone" },
     { id: "logo", label: "Logo" },
+    { id: "color", label: "Color" },
     { id: "typography", label: "Typography" },
     { id: "spacing", label: "Spacing" },
-    { id: "color", label: "Color" },
+    { id: "voice", label: "Voice & Tone" },
     { id: "applications", label: "Applications" },
     { id: "components", label: "Components" },
     { id: "accessibility", label: "Accessibility" }
@@ -137,7 +68,6 @@
     document.documentElement.setAttribute("data-mode", mode);
     syncModeButtons(mode);
     try { localStorage.setItem("jemm-guide-mode", mode); } catch (e) {}
-    if (window.jemmDarkSurface) window.jemmDarkSurface.onModeChange(mode);
     refreshLogos();
     var key = document.body.getAttribute("data-scroll-palette");
     if (key && document.body.getAttribute("data-route") !== "home") {
@@ -432,8 +362,9 @@
     return relativeLuminanceFromHex(bg) > relativeLuminanceFromHex(fg) ? fg : bg;
   }
 
-  function needsTextOutline(ratio) {
-    return ratio < 4.5;
+  function needsTextOutline(ratio, opts) {
+    var threshold = opts && opts.largeText ? 3 : 4.5;
+    return ratio < threshold;
   }
 
   function applyTextOutline(el, fg, bg, width) {
@@ -469,7 +400,7 @@
   function buildContrastPairEl(pair) {
     var ratio = contrastRatio(pair.fg, pair.bg);
     var wcag = wcagLevel(ratio);
-    var outlined = needsTextOutline(ratio);
+    var outlined = needsTextOutline(ratio, { largeText: true });
     var el = document.createElement("article");
     el.className = "contrast-pair";
     el.innerHTML =
@@ -528,13 +459,149 @@
       }
 
       badge.className = "color-band__contrast color-band__contrast--" + wcag.className;
-      badge.textContent = ratio.toFixed(1) + ":1 · " + wcag.label + (needsTextOutline(ratio) ? " · outline" : "");
+      badge.textContent = ratio.toFixed(1) + ":1 · " + wcag.label + (needsTextOutline(ratio, { largeText: true }) ? " · outline" : "");
 
-      if (needsTextOutline(ratio)) {
+      if (needsTextOutline(ratio, { largeText: true })) {
         band.classList.add("is-outlined");
         var name = band.querySelector(".color-band__name");
         applyTextOutline(name, fg, bg, "1.25px");
       }
+    });
+  }
+
+  var MERCH_LOGO_SETS = {
+    mark: {
+      light: "assets/logos/mark-emerald-charcoal.png",
+      dark: "assets/logos/mark-neon-white.png",
+      onNeon: "assets/logos/mark-emerald-charcoal.png",
+      onEmerald: "assets/logos/mark-neon-white.png"
+    },
+    type: {
+      light: "assets/logos/type-emerald-charcoal.png",
+      dark: "assets/logos/type-neon-white.png",
+      onNeon: "assets/logos/type-emerald-charcoal.png",
+      onEmerald: "assets/logos/type-neon-white.png"
+    },
+    lockup: {
+      light: "assets/logos/lockup-square-emerald-charcoal.png",
+      dark: "assets/logos/lockup-square-neon-white.png",
+      onNeon: "assets/logos/lockup-square-emerald-charcoal.png",
+      onEmerald: "assets/logos/lockup-square-neon-white.png"
+    }
+  };
+
+  /* Matches primary pairings on Color + Accessibility — garment hex → logo variant */
+  var MERCH_GARMENT_PAIRING = {
+    "#FFFFFF": "light",
+    "#F7F5F2": "light",
+    "#059161": "onEmerald",
+    "#00D58C": "onNeon",
+    "#002928": "dark",
+    "#283239": "dark",
+    "#121212": "dark",
+    "#202020": "dark"
+  };
+
+  function normalizeMerchHex(hex) {
+    if (!hex || hex === "natural") return hex;
+    return hex.toUpperCase();
+  }
+
+  function getMerchLogoVariant(garment, baseGarment) {
+    garment = normalizeMerchHex(garment);
+    if (garment === "natural") return baseGarment === "dark" ? "dark" : "light";
+    if (MERCH_GARMENT_PAIRING[garment]) return MERCH_GARMENT_PAIRING[garment];
+    return relativeLuminanceFromHex(garment) < 0.38 ? "dark" : "light";
+  }
+
+  function getMerchOverlayStyle(variant) {
+    /* Dark-on-light: multiply · light-on-dark: normal — same rules as color pairings */
+    if (variant === "light" || variant === "onNeon") {
+      return {
+        mixBlendMode: variant === "onNeon" ? "normal" : "multiply",
+        opacity: variant === "onNeon" ? "0.96" : "0.9",
+        filter: variant === "onNeon"
+          ? "drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2))"
+          : "drop-shadow(0 0.5px 1px rgba(0, 0, 0, 0.08))"
+      };
+    }
+    return { mixBlendMode: "normal", opacity: "0.96", filter: "drop-shadow(0 1px 2px rgba(0, 0, 0, 0.28))" };
+  }
+
+  function getActiveMerchControl(panel, selector) {
+    return panel.querySelector(selector + ".is-active");
+  }
+
+  function updateMerchPanel(panel) {
+    var garmentBtn = getActiveMerchControl(panel, "[data-garment]");
+    var logoBtn = getActiveMerchControl(panel, "[data-logo-type]");
+    if (!garmentBtn || !logoBtn) return;
+
+    var garment = normalizeMerchHex(garmentBtn.getAttribute("data-garment"));
+    var logoType = logoBtn.getAttribute("data-logo-type");
+    var baseGarment = panel.getAttribute("data-base-garment") || "light";
+    var variant = getMerchLogoVariant(garment, baseGarment);
+    var logoSet = MERCH_LOGO_SETS[logoType] || MERCH_LOGO_SETS.mark;
+    var logoSrc = logoSet[variant] || logoSet.light;
+    var overlayStyle = getMerchOverlayStyle(variant);
+
+    panel.querySelectorAll(".merch-mock__overlay").forEach(function (overlay) {
+      overlay.src = logoSrc;
+      overlay.setAttribute("data-overlay", logoType);
+      overlay.setAttribute("data-pairing", variant);
+      overlay.classList.remove("merch-mock__overlay--mark", "merch-mock__overlay--type", "merch-mock__overlay--lockup");
+      overlay.classList.add("merch-mock__overlay--" + logoType);
+      overlay.style.mixBlendMode = overlayStyle.mixBlendMode;
+      overlay.style.opacity = overlayStyle.opacity;
+      overlay.style.filter = overlayStyle.filter;
+    });
+  }
+
+  function initMerchMockups() {
+    document.querySelectorAll("[data-merch-studio]").forEach(function (panel) {
+      var tints = panel.querySelectorAll(".merch-mock__tint");
+      var isLightBase = panel.getAttribute("data-base-garment") === "light";
+
+      panel.querySelectorAll("[data-garment]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var garment = btn.getAttribute("data-garment");
+          panel.querySelectorAll("[data-garment]").forEach(function (b) {
+            b.classList.remove("is-active");
+            b.setAttribute("aria-pressed", "false");
+          });
+          btn.classList.add("is-active");
+          btn.setAttribute("aria-pressed", "true");
+          tints.forEach(function (tint) {
+            if (garment === "natural") {
+              tint.classList.remove("is-active");
+              tint.style.background = "";
+            } else {
+              tint.style.background = garment;
+              tint.classList.add("is-active");
+            }
+          });
+          updateMerchPanel(panel);
+        });
+      });
+
+      panel.querySelectorAll("[data-logo-type]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          panel.querySelectorAll("[data-logo-type]").forEach(function (b) {
+            b.classList.remove("is-active");
+            b.setAttribute("aria-pressed", "false");
+          });
+          btn.classList.add("is-active");
+          btn.setAttribute("aria-pressed", "true");
+          updateMerchPanel(panel);
+        });
+      });
+
+      tints.forEach(function (tint) {
+        tint.classList.toggle("merch-mock__tint--multiply", isLightBase);
+        tint.classList.toggle("merch-mock__tint--color", !isLightBase);
+      });
+
+      updateMerchPanel(panel);
     });
   }
 
@@ -571,10 +638,11 @@
   }
 
   function initInteractiveComponents() {
-    document.querySelectorAll(".tabs").forEach(function (tabs) {
-      tabs.querySelectorAll(".tabs__tab").forEach(function (tab) {
+    document.querySelectorAll(".tabs, .ds-tabs").forEach(function (tabs) {
+      var tabSelector = tabs.classList.contains("ds-tabs") ? ".ds-tabs__tab" : ".tabs__tab";
+      tabs.querySelectorAll(tabSelector).forEach(function (tab) {
         tab.addEventListener("click", function () {
-          tabs.querySelectorAll(".tabs__tab").forEach(function (t) {
+          tabs.querySelectorAll(tabSelector).forEach(function (t) {
             t.classList.remove("is-active");
             t.setAttribute("aria-selected", "false");
           });
@@ -583,11 +651,16 @@
         });
       });
     });
-    document.querySelectorAll(".btn-group").forEach(function (group) {
-      group.querySelectorAll(".btn-group__btn").forEach(function (btn) {
+    document.querySelectorAll(".btn-group, .ds-btn-group").forEach(function (group) {
+      var btnSelector = group.classList.contains("ds-btn-group") ? ".ds-btn-group__btn" : ".btn-group__btn";
+      group.querySelectorAll(btnSelector).forEach(function (btn) {
         btn.addEventListener("click", function () {
-          group.querySelectorAll(".btn-group__btn").forEach(function (b) { b.classList.remove("is-active"); });
+          group.querySelectorAll(btnSelector).forEach(function (b) {
+            b.classList.remove("is-active");
+            b.setAttribute("aria-pressed", "false");
+          });
           btn.classList.add("is-active");
+          btn.setAttribute("aria-pressed", "true");
         });
       });
     });
@@ -707,6 +780,7 @@
   initRouting();
   initCopy();
   initContrastPairings();
+  initMerchMockups();
   initInteractiveComponents();
   initMagneticTiles();
   initPaletteScroll();
